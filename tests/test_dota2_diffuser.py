@@ -1,6 +1,6 @@
 import os
 import unittest
-from diffusers import DiffusionPipeline
+from diffusers import StableDiffusionPipeline
 
 
 class TestDiffuser(unittest.TestCase):
@@ -10,10 +10,11 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        pipeline = DiffusionPipeline.from_pretrained("/home/ywz/data/models/stable-diffusion-v1-5")
+        pipeline = StableDiffusionPipeline.from_pretrained("/home/ywz/data/models/stable-diffusion-v1-5")
+        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/models")
         pipeline.to("cuda")
         image = pipeline("a dota 2 hero Juggernaut with a sword fights in forest").images[0]
-        image.save(os.path.join(output_dir, "test_0.png"))
+        image.save(os.path.join(output_dir, "test_1.png"))
 
 
 if __name__ == "__main__":
