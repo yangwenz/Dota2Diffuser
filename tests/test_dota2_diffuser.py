@@ -6,10 +6,12 @@ from diffusers import StableDiffusionPipeline
 class TestDiffuser(unittest.TestCase):
 
     def setUp(self) -> None:
+        styles = ["cinematic lighting, hyperrealistic", "cute anime girl"]
+
         self.prompt_prefix = "dota 2 hero"
         self.prompt_suffix = \
-            "full body, digital painting, high quality, artstation, highly detailed, " \
-            "sharp focus, cinematic lighting, hyperrealistic"
+            f"full body, digital painting, high quality, artstation, highly detailed, " \
+            f"sharp focus, intricate, elegant, {styles[1]}"
 
         self.negative_prompt = \
             "ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
@@ -23,7 +25,7 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "Juggernaut"
+        hero = "Crystal Maiden"
         prompt = f"{self.prompt_prefix}, {hero}, beautiful, atmosphere, " \
                  f"mist, smoke, chimney, puddles, melting, dripping, " \
                  f"snow, creek, lush, ice, bridge, {self.prompt_suffix}"
@@ -41,7 +43,7 @@ class TestDiffuser(unittest.TestCase):
             height=480,
             negative_prompt=self.negative_prompt
         ).images[0]
-        image.save(os.path.join(output_dir, "test_9.png"))
+        image.save(os.path.join(output_dir, "test_11.png"))
 
 
 if __name__ == "__main__":
