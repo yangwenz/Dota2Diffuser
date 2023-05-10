@@ -10,12 +10,15 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        pipeline = StableDiffusionPipeline.from_pretrained("/home/ywz/data/models/stable-diffusion-v1-5")
+        pipeline = StableDiffusionPipeline.from_pretrained(
+            "/home/ywz/data/models/stable-diffusion-v1-5",
+            requires_safety_checker=False
+        )
         pipeline.unet.load_attn_procs("/home/ywz/data/dota2/models")
         pipeline.to("cuda")
-        image = pipeline("a dota 2 hero Juggernaut with a sword and fire lying down on the beach in an art style, "
+        image = pipeline("Juggernaut with a fire sword fighting against a white dog in forest, art style, "
                          "high quality, ultra realistic").images[0]
-        image.save(os.path.join(output_dir, "test_1.png"))
+        image.save(os.path.join(output_dir, "test_2.png"))
 
 
 if __name__ == "__main__":
