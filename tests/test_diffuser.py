@@ -12,7 +12,8 @@ class TestDiffuser(unittest.TestCase):
 
         pipeline = DiffusionPipeline.from_pretrained("/home/ywz/data/models/stable-diffusion-v1-5")
         pipeline.to("cuda")
-        image = pipeline("a dota 2 hero Juggernaut with a sword fights in forest").images[0]
+        image = pipeline("a dota 2 hero Juggernaut with a sword fights in forest, "
+                         "ultra realistic, high quality").images[0]
         image.save(os.path.join(output_dir, "test_0.png"))
 
 
