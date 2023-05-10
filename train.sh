@@ -2,7 +2,7 @@
 
 export MODEL_NAME="/home/ywz/data/models/stable-diffusion-v1-4"
 export DATASET_DIR="/home/ywz/data/dota2/heroes/train"
-export MODEL_DIR="/home/ywz/data/dota2/tmp"
+export MODEL_DIR="/home/ywz/data/dota2/models"
 
 accelerate launch --mixed_precision="fp16" models/train_lora.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
@@ -19,6 +19,6 @@ accelerate launch --mixed_precision="fp16" models/train_lora.py \
   --lr_warmup_steps=0 \
   --seed=0 \
   --output_dir=$MODEL_DIR \
-  --validation_prompt="a dota 2 hero Crystal Maiden" \
-  --num_validation_images=2 \
+  --validation_prompt="a dota 2 hero Mirana" \
+  --num_validation_images=4 \
   --validation_epochs=10

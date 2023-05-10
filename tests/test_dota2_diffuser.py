@@ -16,9 +16,15 @@ class TestDiffuser(unittest.TestCase):
         )
         pipeline.unet.load_attn_procs("/home/ywz/data/dota2/models")
         pipeline.to("cuda")
-        image = pipeline("Juggernaut with a fire sword fighting against a white dog in forest, art style, "
-                         "high quality, ultra realistic").images[0]
-        image.save(os.path.join(output_dir, "test_2.png"))
+        image = pipeline(
+            prompt="a dota 2 hero Juggernaut playing with a white dog in the city, "
+                   "modern style, high quality, ultra realistic",
+            width=640,
+            height=480,
+            negative_prompt="bad hands, missing fingers, extra digit, "
+                            "fewer digits, cropped, worst quality, low quality, bad eyes"
+        ).images[0]
+        image.save(os.path.join(output_dir, "test_3.png"))
 
 
 if __name__ == "__main__":
