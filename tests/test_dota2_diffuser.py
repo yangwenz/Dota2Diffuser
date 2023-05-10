@@ -25,13 +25,13 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "Crystal Maiden with black hair and black eyes"
+        hero = "Crystal Maiden"
         background = "atmosphere, mist, smoke, chimney, puddles, " \
                      "melting, dripping, snow, creek, lush, ice, bridge"
-        prompt = f"{self.prompt_prefix}, {hero}, {self.prompt_suffix}"
+        prompt = f"{self.prompt_prefix}, {hero}, {background}, {self.prompt_suffix}"
 
         pipeline = StableDiffusionPipeline.from_pretrained(
-            "/home/ywz/data/models/stable-diffusion-v1-5",
+            "/home/ywz/data/models/stable-diffusion-v1-4",
             safety_checker=None,
             requires_safety_checker=False
         )
@@ -39,11 +39,11 @@ class TestDiffuser(unittest.TestCase):
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
-            width=480,
-            height=640,
+            width=640,
+            height=480,
             negative_prompt=self.negative_prompt
         ).images[0]
-        image.save(os.path.join(output_dir, "test_11.png"))
+        image.save(os.path.join(output_dir, "test_12.png"))
 
 
 if __name__ == "__main__":
