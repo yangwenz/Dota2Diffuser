@@ -9,7 +9,6 @@ accelerate launch --mixed_precision="fp16" models/train_lora.py \
   --train_data_dir=$DATASET_DIR \
   --caption_column="text" \
   --resolution=512 \
-  --center_crop \
   --random_flip \
   --train_batch_size=2 \
   --num_train_epochs=100 \
@@ -17,7 +16,7 @@ accelerate launch --mixed_precision="fp16" models/train_lora.py \
   --learning_rate=1e-4 \
   --lr_scheduler="constant" \
   --lr_warmup_steps=0 \
-  --seed=0 \
+  --seed=1234 \
   --output_dir=$MODEL_DIR \
   --validation_prompt="a dota 2 hero Mirana" \
   --num_validation_images=4 \
