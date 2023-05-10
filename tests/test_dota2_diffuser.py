@@ -11,7 +11,7 @@ class TestDiffuser(unittest.TestCase):
         self.prompt_prefix = "dota 2 hero"
         self.prompt_suffix = \
             f"full body, digital painting, high quality, artstation, highly detailed, " \
-            f"sharp focus, intricate, elegant, {styles[1]}"
+            f"sharp focus, intricate, elegant, {styles[0]}"
 
         self.negative_prompt = \
             "ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
@@ -25,10 +25,10 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "Crystal Maiden"
-        prompt = f"{self.prompt_prefix}, {hero}, beautiful, atmosphere, " \
-                 f"mist, smoke, chimney, puddles, melting, dripping, " \
-                 f"snow, creek, lush, ice, bridge, {self.prompt_suffix}"
+        hero = "Crystal Maiden with black hair and black eyes"
+        background = "atmosphere, mist, smoke, chimney, puddles, " \
+                     "melting, dripping, snow, creek, lush, ice, bridge"
+        prompt = f"{self.prompt_prefix}, {hero}, {self.prompt_suffix}"
 
         pipeline = StableDiffusionPipeline.from_pretrained(
             "/home/ywz/data/models/stable-diffusion-v1-5",
@@ -39,8 +39,8 @@ class TestDiffuser(unittest.TestCase):
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
-            width=640,
-            height=480,
+            width=480,
+            height=640,
             negative_prompt=self.negative_prompt
         ).images[0]
         image.save(os.path.join(output_dir, "test_11.png"))
