@@ -8,7 +8,7 @@ class TestDiffuser(unittest.TestCase):
     def setUp(self) -> None:
         styles = ["fan art", "anime", "cosplay, realistic"]
 
-        self.prompt_prefix = ""
+        self.prompt_prefix = "beautiful"
         self.prompt_suffix = \
             f"full body, digital painting, high quality, artstation, highly detailed, " \
             f"sharp focus, cinematic lighting, {styles[0]}"
@@ -26,8 +26,8 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "Juggernaut"
-        content = f"{hero} playing with a white dog in a city"
+        hero = "Mirana"
+        content = f"{hero} standing in a city"
         background = "atmosphere, mist, melting, dripping, snow, creek, lush, bridge"
         prompt = f"{self.prompt_prefix}, {content}, {self.prompt_suffix}".strip().lower()
 
