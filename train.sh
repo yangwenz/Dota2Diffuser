@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export MODEL_NAME="/home/ywz/data/models/stable-diffusion-v1-4"
-export DATASET_DIR="/home/ywz/data/dota2/heroes/train"
-export MODEL_DIR="/home/ywz/data/dota2/new_models"
+export DATASET_DIR="/home/ywz/data/dota2/heroes/selected/train"
+export MODEL_DIR="/home/ywz/data/dota2/test"
 
 accelerate launch --mixed_precision="fp16" models/train_lora.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
