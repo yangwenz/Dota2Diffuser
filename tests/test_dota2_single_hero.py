@@ -7,8 +7,8 @@ class TestDiffuser(unittest.TestCase):
 
     def setUp(self) -> None:
         styles = [
-            "artstation, hyperrealistic, detailed painting",
-            "cosplay, ultra realistic",
+            "artstation, hyperrealistic, elegant face",
+            "cosplay, ultra realistic, elegant face",
             "gouache, painting",
             "Ukiyo-e",
             "Artemisia Gentileschi",
@@ -26,7 +26,7 @@ class TestDiffuser(unittest.TestCase):
         self.prompt_suffix = \
             f"full body, high quality, best quality, highly detailed, ultra detailed, " \
             f"masterpiece, " \
-            f"{styles[-1]}"
+            f"{styles[1]}"
 
         self.negative_prompt = \
             "ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
