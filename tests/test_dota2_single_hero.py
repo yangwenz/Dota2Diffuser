@@ -33,7 +33,7 @@ class TestDiffuser(unittest.TestCase):
         self.prompt_suffix = \
             f"full body, high quality, best quality, highly detailed, ultra detailed, " \
             f"masterpiece, " \
-            f"{styles[0]}"
+            f"{styles[-1]}"
 
         self.negative_prompt = \
             "ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
@@ -48,7 +48,7 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "Ogre Magi"
+        hero = "crystal_maiden_dota"
         content = f"{hero}"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
 
@@ -57,7 +57,7 @@ class TestDiffuser(unittest.TestCase):
             safety_checker=None,
             requires_safety_checker=False
         )
-        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_3")
+        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test")
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
