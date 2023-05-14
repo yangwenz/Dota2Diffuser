@@ -9,24 +9,31 @@ class TestDiffuser(unittest.TestCase):
         styles = [
             "artstation, hyperrealistic, elegant",
             "cosplay, ultra realistic, elegant",
-            "gouache, painting",
+            "pop up paper card",
+            "porcelain statue",
+
+            "Takashi Murakami, painting",
             "Ukiyo-e, painting",
-            "Artemisia Gentileschi",
-            "Margaret Macdonald Mackintosh",
-            "Alma Thomas",
-            "Frederic Edwin Church",
-            "Kawanabe Kyosai",
-            "Amrita Sher-Gil",
-            "Ravi Varma",
-            "Max Ernst",
-            "Vincent van Gogh",
-            "Jacob Lawrence",
-            "Pierre-Auguste Renoir"
+            "Alphonse Mucha, painting",
+            "John Collier, painting",
+            "Artemisia Gentileschi, painting",
+            "Margaret Macdonald Mackintosh, painting",
+            "Alma Thomas, painting",
+            "Kawanabe Kyosai, painting",
+            "Amrita Sher-Gil, painting",
+            "Ravi Varma, painting",
+            "Vincent van Gogh, painting",
+            "Jacob Lawrence, painting",
+            "Salvador Dali, painting",
+            "John Singer Sargent, painting",
+            "Brad Rigney, painting",
+            "Andrew Warhol, painting",
+            "Android Jones, painting"
         ]
         self.prompt_suffix = \
             f"full body, high quality, best quality, highly detailed, ultra detailed, " \
             f"masterpiece, " \
-            f"{styles[1]}"
+            f"{styles[0]}"
 
         self.negative_prompt = \
             "ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
@@ -41,16 +48,16 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "Juggernaut"
-        content = f"{hero} standing in a city"
+        hero = "Ogre Magi"
+        content = f"{hero}"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
 
         pipeline = StableDiffusionPipeline.from_pretrained(
-            "/home/ywz/data/models/stable-diffusion-v1-4",
+            "/home/ywz/data/models/stable-diffusion-v1-5",
             safety_checker=None,
             requires_safety_checker=False
         )
-        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_1")
+        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_3")
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
