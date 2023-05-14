@@ -9,7 +9,7 @@ class TestDiffuser(unittest.TestCase):
         styles = [
             "artstation, hyperrealistic, elegant",
             "cosplay, ultra realistic, elegant",
-            "pop up paper card",
+            # "pop up paper card",
             "porcelain statue",
 
             "Takashi Murakami, painting",
@@ -33,7 +33,7 @@ class TestDiffuser(unittest.TestCase):
         self.prompt_suffix = \
             f"full body, high quality, best quality, highly detailed, ultra detailed, " \
             f"masterpiece, " \
-            f"{styles[-1]}"
+            f"{styles[0]}"
 
         self.negative_prompt = \
             "ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
@@ -48,7 +48,7 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "crystal_maiden_dota"
+        hero = "spectre_dota"
         content = f"{hero}"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
 
@@ -57,7 +57,7 @@ class TestDiffuser(unittest.TestCase):
             safety_checker=None,
             requires_safety_checker=False
         )
-        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test")
+        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_6")
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
