@@ -7,10 +7,10 @@ class TestDiffuser(unittest.TestCase):
 
     def setUp(self) -> None:
         styles = [
-            "artstation, hyperrealistic, elegant face",
-            "cosplay, ultra realistic, elegant face",
+            "artstation, hyperrealistic, elegant",
+            "cosplay, ultra realistic, elegant",
             "gouache, painting",
-            "Ukiyo-e",
+            "Ukiyo-e, painting",
             "Artemisia Gentileschi",
             "Margaret Macdonald Mackintosh",
             "Alma Thomas",
@@ -41,8 +41,8 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "Crystal Maiden"
-        content = f"{hero} in a city, snowy"
+        hero = "Juggernaut"
+        content = f"{hero} standing in a city"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
 
         pipeline = StableDiffusionPipeline.from_pretrained(
@@ -50,12 +50,12 @@ class TestDiffuser(unittest.TestCase):
             safety_checker=None,
             requires_safety_checker=False
         )
-        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test")
+        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_1")
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
-            width=480,
-            height=720,
+            width=512,
+            height=512,
             negative_prompt=self.negative_prompt
         ).images[0]
         image.save(os.path.join(output_dir, "test_22.png"))

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export MODEL_NAME="/home/ywz/data/models/stable-diffusion-v1-4"
+export MODEL_NAME="/home/ywz/data/models/stable-diffusion-v1-5"
 export DATASET_DIR="/home/ywz/data/dota2/heroes/selected/train"
-export MODEL_DIR="/home/ywz/data/dota2/test"
+export MODEL_DIR="/home/ywz/data/dota2/test_1"
 
 accelerate launch --mixed_precision="fp16" models/train_lora.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
@@ -18,6 +18,6 @@ accelerate launch --mixed_precision="fp16" models/train_lora.py \
   --lr_warmup_steps=0 \
   --seed=1234 \
   --output_dir=$MODEL_DIR \
-  --validation_prompt="a dota 2 hero Crystal Maiden, full body, digital painting, high quality, artstation, highly detailed" \
+  --validation_prompt="Juggernaut, full body, best quality, ultra detailed, masterpiece" \
   --num_validation_images=4 \
   --validation_epochs=10
