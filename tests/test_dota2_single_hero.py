@@ -7,7 +7,7 @@ class TestDiffuser(unittest.TestCase):
 
     def setUp(self) -> None:
         styles = [
-            "artstation, digital painting, hyperrealistic, elegant",
+            "artstation, hyperrealistic, elegant",
             "cosplay, ultra realistic, elegant",
             "anime, elegant, beautiful",
             # "pop up paper card",
@@ -49,8 +49,8 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "windranger_dota"
-        content = f"{hero}"
+        hero = "invoker_dota"
+        content = f"{hero})"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
@@ -59,12 +59,12 @@ class TestDiffuser(unittest.TestCase):
             safety_checker=None,
             requires_safety_checker=False
         )
-        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_17")
+        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_19")
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
-            width=480,
-            height=720,
+            width=512,
+            height=512,
             negative_prompt=self.negative_prompt
         ).images[0]
         image.save(os.path.join(output_dir, "test_24.png"))
