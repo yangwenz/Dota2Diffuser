@@ -1,5 +1,6 @@
 import os
 import unittest
+from compel import Compel
 from diffusers import StableDiffusionPipeline
 
 
@@ -7,8 +8,8 @@ class TestDiffuser(unittest.TestCase):
 
     def setUp(self) -> None:
         styles = [
-            "illustration, beautiful detailed eyes",     # 0
-            "artstation, hyperrealistic, elegant face",  # 1
+            "illustration, beautiful detailed eyes, depth of field",     # 0
+            "artstation, hyperrealistic, elegant",       # 1
             "cosplay, ultra realistic, elegant",         # 2
             "pop up paper card",                         # 3
             "porcelain statue",                          # 4
@@ -49,8 +50,9 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "crystal_maiden_dota"
-        content = f"{hero}"
+        model_dir = "/home/ywz/data/dota2/test_drow_ranger"
+        hero = "drow_ranger_dota"
+        content = f"{hero} in a city++"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
@@ -59,12 +61,19 @@ class TestDiffuser(unittest.TestCase):
             safety_checker=None,
             requires_safety_checker=False
         )
-        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/model")
+        compel_proc = Compel(
+            tokenizer=pipeline.tokenizer,
+            text_encoder=pipeline.text_encoder
+        )
+        pipeline.unet.load_attn_procs(model_dir)
         pipeline.to("cuda")
+
+        prompt_embeds = compel_proc(prompt)
         image = pipeline(
-            prompt=prompt,
-            width=512,
-            height=512,
+            # prompt=prompt,
+            prompt_embeds=prompt_embeds,
+            width=480,
+            height=720,
             negative_prompt=self.negative_prompt
         ).images[0]
         image.save(os.path.join(output_dir, "test_25.png"))
