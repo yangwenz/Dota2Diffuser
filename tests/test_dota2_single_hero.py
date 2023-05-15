@@ -9,6 +9,7 @@ class TestDiffuser(unittest.TestCase):
         styles = [
             "artstation, hyperrealistic, elegant",
             "cosplay, ultra realistic, elegant",
+            "anime, elegant, beautiful",
             # "pop up paper card",
             "porcelain statue",
 
@@ -16,7 +17,6 @@ class TestDiffuser(unittest.TestCase):
             "Ukiyo-e, painting",
             "Alphonse Mucha, painting",
             "John Collier, painting",
-            "Artemisia Gentileschi, painting",
             "Margaret Macdonald Mackintosh, painting",
             "Alma Thomas, painting",
             "Kawanabe Kyosai, painting",
@@ -36,36 +36,37 @@ class TestDiffuser(unittest.TestCase):
             f"{styles[0]}"
 
         self.negative_prompt = \
-            "ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
+            "ugly, lowres, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
             "out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, " \
             "watermark, signature, cut off, low contrast, underexposed, overexposed, " \
             "bad art, beginner, amateur, distorted face, blurry, draft, grainy, bad hands, " \
             "missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, " \
-            "bad eyes, bad legs, bad arms"
+            "text, error, normal quality, jpeg artifacts, username, artist name"
 
     def test_diffuser(self):
         output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "save")
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "spectre_dota"
-        content = f"{hero}"
+        hero = "crystal_maiden_dota"
+        content = f"{hero} in a swimming outfit"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
+        print(prompt)
 
         pipeline = StableDiffusionPipeline.from_pretrained(
             "/home/ywz/data/models/stable-diffusion-v1-5",
             safety_checker=None,
             requires_safety_checker=False
         )
-        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_6")
+        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test")
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
-            width=512,
-            height=512,
+            width=480,
+            height=720,
             negative_prompt=self.negative_prompt
         ).images[0]
-        image.save(os.path.join(output_dir, "test_22.png"))
+        image.save(os.path.join(output_dir, "test_24.png"))
 
 
 if __name__ == "__main__":
