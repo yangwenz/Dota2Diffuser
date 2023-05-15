@@ -7,7 +7,7 @@ class TestDiffuser(unittest.TestCase):
 
     def setUp(self) -> None:
         styles = [
-            "artstation, hyperrealistic, elegant",
+            "artstation, digital painting, hyperrealistic, elegant",
             "cosplay, ultra realistic, elegant",
             "anime, elegant, beautiful",
             # "pop up paper card",
@@ -31,7 +31,7 @@ class TestDiffuser(unittest.TestCase):
             "Android Jones, painting"
         ]
         self.prompt_suffix = \
-            f"full body, high quality, best quality, highly detailed, ultra detailed, " \
+            f"high quality, best quality, highly detailed, ultra detailed, " \
             f"masterpiece, " \
             f"{styles[0]}"
 
