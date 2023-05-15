@@ -41,14 +41,15 @@ class TestDiffuser(unittest.TestCase):
             "watermark, signature, cut off, low contrast, underexposed, overexposed, " \
             "bad art, beginner, amateur, distorted face, blurry, draft, grainy, bad hands, " \
             "missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, " \
-            "text, error, normal quality, jpeg artifacts, username, artist name"
+            "text, error, normal quality, jpeg artifacts, username, artist name, fused clothes, " \
+            "poorly drawn clothes"
 
     def test_diffuser(self):
         output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "save")
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "rubick_dota"
+        hero = "windranger_dota"
         content = f"{hero}"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
@@ -58,7 +59,7 @@ class TestDiffuser(unittest.TestCase):
             safety_checker=None,
             requires_safety_checker=False
         )
-        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_15")
+        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_17")
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
