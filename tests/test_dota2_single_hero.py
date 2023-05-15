@@ -7,33 +7,33 @@ class TestDiffuser(unittest.TestCase):
 
     def setUp(self) -> None:
         styles = [
-            "artstation, hyperrealistic, elegant",
-            "cosplay, ultra realistic, elegant",
-            "anime, elegant, beautiful",
-            # "pop up paper card",
-            "porcelain statue",
+            "illustration, beautiful detailed eyes",     # 0
+            "artstation, hyperrealistic, elegant face",  # 1
+            "cosplay, ultra realistic, elegant",         # 2
+            "pop up paper card",                         # 3
+            "porcelain statue",                          # 4
 
-            "Takashi Murakami, painting",
-            "Ukiyo-e, painting",
-            "Alphonse Mucha, painting",
-            "John Collier, painting",
-            "Margaret Macdonald Mackintosh, painting",
-            "Alma Thomas, painting",
-            "Kawanabe Kyosai, painting",
-            "Amrita Sher-Gil, painting",
-            "Ravi Varma, painting",
-            "Vincent van Gogh, painting",
-            "Jacob Lawrence, painting",
-            "Salvador Dali, painting",
-            "John Singer Sargent, painting",
-            "Brad Rigney, painting",
-            "Andrew Warhol, painting",
-            "Android Jones, painting"
+            "Takashi Murakami, painting",                # 5
+            "Ukiyo-e, painting",                         # 6
+            "Alphonse Mucha, painting",                  # 7
+            "John Collier, painting",                    # 8
+            "Margaret Macdonald Mackintosh, painting",   # 9
+            "Alma Thomas, painting",                     # 10
+            "Kawanabe Kyosai, painting",                 # 11
+            "Amrita Sher-Gil, painting",                 # 12
+            "Ravi Varma, painting",                      # 13
+            "Vincent van Gogh, painting",                # 14
+            "Jacob Lawrence, painting",                  # 15
+            "Salvador Dali, painting",                   # 16
+            "John Singer Sargent, painting",             # 17
+            "Brad Rigney, painting",                     # 18
+            "Andrew Warhol, painting",                   # 19
+            "Android Jones, painting"                    # 20
         ]
         self.prompt_suffix = \
             f"high quality, best quality, highly detailed, ultra detailed, " \
             f"masterpiece, " \
-            f"{styles[0]}"
+            f"{styles[3]}"
 
         self.negative_prompt = \
             "ugly, lowres, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
@@ -50,7 +50,7 @@ class TestDiffuser(unittest.TestCase):
             os.makedirs(output_dir)
 
         hero = "crystal_maiden_dota"
-        content = f"{hero})"
+        content = f"{hero}"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
@@ -67,7 +67,7 @@ class TestDiffuser(unittest.TestCase):
             height=512,
             negative_prompt=self.negative_prompt
         ).images[0]
-        image.save(os.path.join(output_dir, "test_24.png"))
+        image.save(os.path.join(output_dir, "test_25.png"))
 
 
 if __name__ == "__main__":
