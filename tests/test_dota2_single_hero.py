@@ -32,9 +32,9 @@ class TestDiffuser(unittest.TestCase):
             "Android Jones, painting"                    # 20
         ]
         self.prompt_suffix = \
-            f"high quality, best quality, highly detailed, ultra detailed, " \
+            f"full body, high quality, best quality, highly detailed, ultra detailed, " \
             f"masterpiece, " \
-            f"{styles[0]}"
+            f"{styles[1]}"
 
         self.negative_prompt = \
             "ugly, lowres, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
@@ -50,9 +50,9 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        model_dir = "/home/ywz/data/dota2/test_drow_ranger"
-        hero = "drow_ranger_dota"
-        content = f"{hero} in a city++"
+        model_dir = "/home/ywz/data/dota2/test_lina"
+        hero = "lina_dota"
+        content = f"{hero}, bikini++, standing"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
