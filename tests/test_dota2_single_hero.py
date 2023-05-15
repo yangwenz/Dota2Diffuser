@@ -49,7 +49,7 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        hero = "invoker_dota"
+        hero = "crystal_maiden_dota"
         content = f"{hero})"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
@@ -59,7 +59,7 @@ class TestDiffuser(unittest.TestCase):
             safety_checker=None,
             requires_safety_checker=False
         )
-        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/test_19")
+        pipeline.unet.load_attn_procs("/home/ywz/data/dota2/model")
         pipeline.to("cuda")
         image = pipeline(
             prompt=prompt,
