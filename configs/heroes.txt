@@ -40,7 +40,6 @@ Tusk
 Underlord
 Undying
 Wraith King
-
 Anti-Mage
 Arc Warden
 Bloodseeker
@@ -79,7 +78,6 @@ Vengeful Spirit
 Venomancer
 Viper
 Weaver
-
 Ancient Apparition
 Bane
 Batrider
