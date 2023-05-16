@@ -52,8 +52,8 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        model_dir = "/home/ywz/data/dota2/test_lina_1"
-        hero = "Lina"
+        model_dir = "/home/ywz/data/dota2/model"
+        hero = "Crystal Maiden"
         hero_index = self.config.hero2index[hero]
 
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
