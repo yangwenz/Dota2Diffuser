@@ -13,9 +13,11 @@
 # limitations under the License.
 from typing import Callable, Optional, Union
 
+import math
 import torch
 import torch.nn.functional as F
 from torch import nn
+from torch.nn.parameter import Parameter
 
 from ..utils import deprecate, logging, maybe_allow_in_graph
 from ..utils.import_utils import is_xformers_available
@@ -439,14 +441,35 @@ class LoRALinearLayer(nn.Module):
         return up_hidden_states.to(orig_dtype)
 
 
+class LinearExtended(nn.Module):
+    def __init__(self, in_features, out_features, max_num_labels, device=None, dtype=None):
+        factory_kwargs = {'device': device, 'dtype': dtype}
+        super().__init__()
+        self.in_features = in_features
+        self.out_features = out_features
+
+        self.weight = Parameter(
+            torch.empty((max_num_labels, out_features * in_features), **factory_kwargs))
+        self.reset_parameters()
+
+    def reset_parameters(self) -> None:
+        nn.init.kaiming_uniform_(self.weight, a=math.sqrt(5))
+
+    def forward(self, input, label):
+        assert input.shape[0] == label.shape[0]
+        weights = F.embedding(label, self.weight)
+        weights = weights.view((-1, self.in_features, self.out_features))
+        return torch.bmm(input, weights)
+
+
 class LoRALinearLayerExtended(nn.Module):
-    def __init__(self, in_features, out_features, rank=4):
+    def __init__(self, in_features, out_features, rank=4, max_num_labels=50):
         super().__init__()
         if rank > min(in_features, out_features):
             raise ValueError(f"LoRA rank {rank} must be less or equal than {min(in_features, out_features)}")
 
-        self.down = nn.Linear(in_features, rank, bias=False)
-        self.up = nn.Linear(rank, out_features, bias=False)
+        self.down = LinearExtended(in_features, rank, max_num_labels)
+        self.up = LinearExtended(rank, out_features, max_num_labels)
 
         nn.init.normal_(self.down.weight, std=1 / rank)
         nn.init.zeros_(self.up.weight)
@@ -455,9 +478,8 @@ class LoRALinearLayerExtended(nn.Module):
         orig_dtype = hidden_states.dtype
         dtype = self.down.weight.dtype
 
-        down_hidden_states = self.down(hidden_states.to(dtype))
-        up_hidden_states = self.up(down_hidden_states)
-
+        down_hidden_states = self.down(hidden_states.to(dtype), label)
+        up_hidden_states = self.up(down_hidden_states, label)
         return up_hidden_states.to(orig_dtype)
 
 
