@@ -464,7 +464,7 @@ class LinearExtended(nn.Module):
 
 
 class LoRALinearLayerExtended(nn.Module):
-    def __init__(self, in_features, out_features, rank=4, max_num_labels=150):
+    def __init__(self, in_features, out_features, rank=4, max_num_labels=130):
         super().__init__()
         if rank > min(in_features, out_features):
             raise ValueError(f"LoRA rank {rank} must be less or equal than {min(in_features, out_features)}")
