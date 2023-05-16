@@ -34,7 +34,7 @@ class TestDiffuser(unittest.TestCase):
             "Android Jones, painting"                    # 20
         ]
         self.prompt_suffix = \
-            f"full body, high quality, best quality, highly detailed, ultra detailed, " \
+            f"high quality, best quality, highly detailed, ultra detailed, " \
             f"masterpiece, " \
             f"{styles[1]}"
 
@@ -77,8 +77,8 @@ class TestDiffuser(unittest.TestCase):
         image = pipeline(
             # prompt=prompt,
             prompt_embeds=prompt_embeds,
-            width=480,
-            height=720,
+            width=512,
+            height=512,
             negative_prompt=self.negative_prompt,
             cross_attention_kwargs={"label": hero_index}
         ).images[0]
