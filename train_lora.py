@@ -135,6 +135,9 @@ def parse_args():
         "--validation_prompt", type=str, default=None, help="A prompt that is sampled during training for inference."
     )
     parser.add_argument(
+        "--validation_label_index", type=int, default=None, help="The index of the class label."
+    )
+    parser.add_argument(
         "--num_validation_images",
         type=int,
         default=4,
@@ -597,7 +600,11 @@ def main():
         pixel_values = torch.stack([example["pixel_values"] for example in examples])
         pixel_values = pixel_values.to(memory_format=torch.contiguous_format).float()
         input_ids = torch.stack([example["input_ids"] for example in examples])
-        return {"pixel_values": pixel_values, "input_ids": input_ids}
+        if "label" in examples[0]:
+            label = torch.tensor([example["label"] for example in examples], dtype=torch.int)
+        else:
+            label = None
+        return {"pixel_values": pixel_values, "input_ids": input_ids, "label": label}
 
     # DataLoaders creation:
     train_dataloader = torch.utils.data.DataLoader(
@@ -725,7 +732,12 @@ def main():
                     raise ValueError(f"Unknown prediction type {noise_scheduler.config.prediction_type}")
 
                 # Predict the noise residual and compute loss
-                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states).sample
+                model_pred = unet(
+                    noisy_latents,
+                    timesteps,
+                    encoder_hidden_states,
+                    cross_attention_kwargs={"label": batch["label"]}
+                ).sample
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).
@@ -783,7 +795,12 @@ def main():
                 images = []
                 for _ in range(args.num_validation_images):
                     images.append(
-                        pipeline(args.validation_prompt, num_inference_steps=30, generator=generator).images[0]
+                        pipeline(
+                            args.validation_prompt,
+                            num_inference_steps=30,
+                            generator=generator,
+                            cross_attention_kwargs={"label": args.validation_label_index}
+                        ).images[0]
                     )
 
                 for tracker in accelerator.trackers:
@@ -842,7 +859,12 @@ def main():
     generator = torch.Generator(device=accelerator.device).manual_seed(args.seed)
     images = []
     for _ in range(args.num_validation_images):
-        images.append(pipeline(args.validation_prompt, num_inference_steps=30, generator=generator).images[0])
+        images.append(pipeline(
+            args.validation_prompt,
+            num_inference_steps=30,
+            generator=generator,
+            cross_attention_kwargs={"label": args.validation_label_index}
+        ).images[0])
 
     if accelerator.is_main_process:
         for tracker in accelerator.trackers:

@@ -679,6 +679,10 @@ class StableDiffusionPipeline(DiffusionPipeline, TextualInversionLoaderMixin, Lo
                 # expand the latents if we are doing classifier free guidance
                 latent_model_input = torch.cat([latents] * 2) if do_classifier_free_guidance else latents
                 latent_model_input = self.scheduler.scale_model_input(latent_model_input, t)
+                if "label" in cross_attention_kwargs and isinstance(cross_attention_kwargs["label"], int):
+                    cross_attention_kwargs["label"] = torch.tensor(
+                        [cross_attention_kwargs["label"]] * prompt_embeds.shape[0],
+                        dtype=torch.int, device=device)
 
                 # predict the noise residual
                 noise_pred = self.unet(

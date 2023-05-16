@@ -2,11 +2,13 @@ import os
 import unittest
 from compel import Compel
 from diffusers import StableDiffusionPipeline
+from configs.parser import ConfigParser
 
 
 class TestDiffuser(unittest.TestCase):
 
     def setUp(self) -> None:
+        self.config = ConfigParser()
         styles = [
             "illustration, beautiful detailed eyes, depth of field",     # 0
             "artstation, hyperrealistic, elegant",       # 1
@@ -51,8 +53,10 @@ class TestDiffuser(unittest.TestCase):
             os.makedirs(output_dir)
 
         model_dir = "/home/ywz/data/dota2/test_lina"
-        hero = "lina_dota"
-        content = f"{hero}, bikini++, standing"
+        hero = "Lina"
+        hero_index = self.config.hero2index[hero]
+        hero_token = f"{hero.lower().replace(' ', '_')}_dota"
+        content = f"{hero_token}, bikini++, standing"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
@@ -75,7 +79,7 @@ class TestDiffuser(unittest.TestCase):
             width=480,
             height=720,
             negative_prompt=self.negative_prompt,
-            cross_attention_kwargs={"label": None}
+            cross_attention_kwargs={"label": hero_index}
         ).images[0]
         image.save(os.path.join(output_dir, "test_25.png"))
 

@@ -463,7 +463,7 @@ class LinearExtended(nn.Module):
 
 
 class LoRALinearLayerExtended(nn.Module):
-    def __init__(self, in_features, out_features, rank=4, max_num_labels=50):
+    def __init__(self, in_features, out_features, rank=4, max_num_labels=150):
         super().__init__()
         if rank > min(in_features, out_features):
             raise ValueError(f"LoRA rank {rank} must be less or equal than {min(in_features, out_features)}")
@@ -484,7 +484,7 @@ class LoRALinearLayerExtended(nn.Module):
 
 
 class LoRAAttnProcessor(nn.Module):
-    def __init__(self, hidden_size, cross_attention_dim=None, rank=4, use_extended=False):
+    def __init__(self, hidden_size, cross_attention_dim=None, rank=4, use_extended=True):
         super().__init__()
 
         self.hidden_size = hidden_size
