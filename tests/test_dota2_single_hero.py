@@ -74,7 +74,8 @@ class TestDiffuser(unittest.TestCase):
             prompt_embeds=prompt_embeds,
             width=480,
             height=720,
-            negative_prompt=self.negative_prompt
+            negative_prompt=self.negative_prompt,
+            cross_attention_kwargs={"label": None}
         ).images[0]
         image.save(os.path.join(output_dir, "test_25.png"))
 

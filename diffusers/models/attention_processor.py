@@ -431,7 +431,7 @@ class LoRALinearLayer(nn.Module):
         nn.init.normal_(self.down.weight, std=1 / rank)
         nn.init.zeros_(self.up.weight)
 
-    def forward(self, hidden_states):
+    def forward(self, hidden_states, **kwargs):
         orig_dtype = hidden_states.dtype
         dtype = self.down.weight.dtype
 
@@ -455,7 +455,7 @@ class LinearExtended(nn.Module):
     def reset_parameters(self) -> None:
         nn.init.kaiming_uniform_(self.weight, a=math.sqrt(5))
 
-    def forward(self, input, label):
+    def forward(self, input, label, **kwargs):
         assert input.shape[0] == label.shape[0]
         weights = F.embedding(label, self.weight)
         weights = weights.view((-1, self.in_features, self.out_features))
