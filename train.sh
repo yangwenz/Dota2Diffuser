@@ -4,7 +4,7 @@ export MODEL_NAME="/home/ywz/data/models/stable-diffusion-v1-5"
 export DATASET_DIR="/home/ywz/data/dota2/heroes/selected/train"
 export MODEL_DIR="/home/ywz/data/dota2/test_lina"
 
-accelerate launch --mixed_precision="fp16" models/train_lora.py \
+accelerate launch --mixed_precision="fp16" train_lora.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
   --train_data_dir=$DATASET_DIR \
   --caption_column="text" \

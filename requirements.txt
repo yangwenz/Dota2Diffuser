@@ -1,4 +1,4 @@
-diffusers[torch]
+torch
 transformers
 datasets
 torchvision
