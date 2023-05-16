@@ -227,7 +227,10 @@ class UNet2DConditionLoadersMixin:
         # fill attn processors
         attn_processors = {}
 
-        is_lora = all("lora" in k for k in state_dict.keys())
+        is_lora = False
+        is_lora_extended = all("lora" in k and "weight_extended" in k for k in state_dict.keys())
+        if not is_lora_extended:
+            is_lora = all("lora" in k for k in state_dict.keys())
         is_custom_diffusion = any("custom_diffusion" in k for k in state_dict.keys())
 
         if is_lora:
@@ -254,9 +257,38 @@ class UNet2DConditionLoadersMixin:
                 hidden_size = value_dict["to_k_lora.up.weight"].shape[0]
 
                 attn_processors[key] = LoRAAttnProcessor(
-                    hidden_size=hidden_size, cross_attention_dim=cross_attention_dim, rank=rank
+                    hidden_size=hidden_size, cross_attention_dim=cross_attention_dim, rank=rank, use_extended=False
                 )
                 attn_processors[key].load_state_dict(value_dict)
+
+        elif is_lora_extended:
+            is_new_lora_format = all(
+                key.startswith(self.unet_name) or key.startswith(self.text_encoder_name) for key in state_dict.keys()
+            )
+            if is_new_lora_format:
+                # Strip the `"unet"` prefix.
+                is_text_encoder_present = any(key.startswith(self.text_encoder_name) for key in state_dict.keys())
+                if is_text_encoder_present:
+                    warn_message = "The state_dict contains LoRA params corresponding to the text encoder which are not being used here. To use both UNet and text encoder related LoRA params, use [`pipe.load_lora_weights()`](https://huggingface.co/docs/diffusers/main/en/api/loaders#diffusers.loaders.LoraLoaderMixin.load_lora_weights)."
+                    warnings.warn(warn_message)
+                unet_keys = [k for k in state_dict.keys() if k.startswith(self.unet_name)]
+                state_dict = {k.replace(f"{self.unet_name}.", ""): v for k, v in state_dict.items() if k in unet_keys}
+
+            lora_grouped_dict = defaultdict(dict)
+            for key, value in state_dict.items():
+                attn_processor_key, sub_key = ".".join(key.split(".")[:-3]), ".".join(key.split(".")[-3:])
+                lora_grouped_dict[attn_processor_key][sub_key] = value
+
+            for key, value_dict in lora_grouped_dict.items():
+                rank = value_dict["to_k_lora.down.weight_extended"].shape[2]
+                cross_attention_dim = value_dict["to_k_lora.down.weight_extended"].shape[1]
+                hidden_size = value_dict["to_k_lora.up.weight_extended"].shape[2]
+
+                attn_processors[key] = LoRAAttnProcessor(
+                    hidden_size=hidden_size, cross_attention_dim=cross_attention_dim, rank=rank, use_extended=True
+                )
+                attn_processors[key].load_state_dict(value_dict)
+
         elif is_custom_diffusion:
             custom_diffusion_grouped_dict = defaultdict(dict)
             for key, value in state_dict.items():

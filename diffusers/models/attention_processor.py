@@ -447,17 +447,18 @@ class LinearExtended(nn.Module):
         super().__init__()
         self.in_features = in_features
         self.out_features = out_features
+        self.max_num_labels = max_num_labels
 
-        self.weight = Parameter(
-            torch.empty((max_num_labels, out_features * in_features), **factory_kwargs))
+        self.weight_extended = Parameter(
+            torch.empty((max_num_labels, in_features, out_features), **factory_kwargs))
         self.reset_parameters()
 
     def reset_parameters(self) -> None:
-        nn.init.kaiming_uniform_(self.weight, a=math.sqrt(5))
+        nn.init.kaiming_uniform_(self.weight_extended, a=math.sqrt(5))
 
     def forward(self, input, label, **kwargs):
         assert input.shape[0] == label.shape[0]
-        weights = F.embedding(label, self.weight)
+        weights = F.embedding(label, self.weight_extended.view((self.max_num_labels, -1)))
         weights = weights.view((-1, self.in_features, self.out_features))
         return torch.bmm(input, weights)
 
@@ -471,12 +472,12 @@ class LoRALinearLayerExtended(nn.Module):
         self.down = LinearExtended(in_features, rank, max_num_labels)
         self.up = LinearExtended(rank, out_features, max_num_labels)
 
-        nn.init.normal_(self.down.weight, std=1 / rank)
-        nn.init.zeros_(self.up.weight)
+        nn.init.normal_(self.down.weight_extended, std=1 / rank)
+        nn.init.zeros_(self.up.weight_extended)
 
     def forward(self, hidden_states, label, **kwargs):
         orig_dtype = hidden_states.dtype
-        dtype = self.down.weight.dtype
+        dtype = self.down.weight_extended.dtype
 
         down_hidden_states = self.down(hidden_states.to(dtype), label)
         up_hidden_states = self.up(down_hidden_states, label)
