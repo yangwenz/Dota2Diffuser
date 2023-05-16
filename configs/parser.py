@@ -7,7 +7,12 @@ class ConfigParser:
         self._directory = os.path.dirname(os.path.abspath(__file__))
         self._heroes = self._load_heroes()
         self._styles = self._load_styles()
-        self._hero2index = {hero: i for i, hero in enumerate(self._heroes)}
+
+        self._hero2index = {}
+        for i, hero in enumerate(self._heroes):
+            self._hero2index[hero] = i
+            self._hero2index[hero.lower()] = i
+            self._hero2index[hero.lower().replace(" ", "_")] = i
 
     def _load_heroes(self):
         heroes = []
