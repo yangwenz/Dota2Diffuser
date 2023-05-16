@@ -93,7 +93,12 @@ class UNet2DConditionLoadersMixin:
     text_encoder_name = TEXT_ENCODER_NAME
     unet_name = UNET_NAME
 
-    def load_attn_procs(self, pretrained_model_name_or_path_or_dict: Union[str, Dict[str, torch.Tensor]], **kwargs):
+    def load_attn_procs(
+            self,
+            pretrained_model_name_or_path_or_dict: Union[str, Dict[str, torch.Tensor]],
+            for_finetuning=False,
+            **kwargs
+    ):
         r"""
         Load pretrained attention processor layers into `UNet2DConditionModel`. Attention processor layers have to be
         defined in
@@ -323,8 +328,8 @@ class UNet2DConditionLoadersMixin:
             )
 
         # set correct dtype & device
-        attn_processors = {k: v.to(device=self.device, dtype=self.dtype) for k, v in attn_processors.items()}
-
+        if not for_finetuning:
+            attn_processors = {k: v.to(device=self.device, dtype=self.dtype) for k, v in attn_processors.items()}
         # set layers
         self.set_attn_processor(attn_processors)
 

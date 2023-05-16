@@ -11,32 +11,32 @@ class TestDiffuser(unittest.TestCase):
         self.config = ConfigParser()
         styles = [
             "illustration, beautiful detailed eyes, depth of field",     # 0
-            "artstation, hyperrealistic, elegant",       # 1
-            "cosplay, ultra realistic, elegant",         # 2
-            "pop up paper card",                         # 3
-            "porcelain statue",                          # 4
+            "artstation, hyperrealistic, elegant",         # 1
+            "cosplay, ultra realistic, elegant",           # 2
+            "pop up paper card",                           # 3
+            "porcelain statue",                            # 4
 
-            "Takashi Murakami, painting",                # 5
-            "Ukiyo-e, painting",                         # 6
-            "Alphonse Mucha, painting",                  # 7
-            "John Collier, painting",                    # 8
-            "Margaret Macdonald Mackintosh, painting",   # 9
-            "Alma Thomas, painting",                     # 10
-            "Kawanabe Kyosai, painting",                 # 11
-            "Amrita Sher-Gil, painting",                 # 12
-            "Ravi Varma, painting",                      # 13
-            "Vincent van Gogh, painting",                # 14
-            "Jacob Lawrence, painting",                  # 15
-            "Salvador Dali, painting",                   # 16
-            "John Singer Sargent, painting",             # 17
-            "Brad Rigney, painting",                     # 18
-            "Andrew Warhol, painting",                   # 19
-            "Android Jones, painting"                    # 20
+            "Takashi Murakami++, painting",                # 5
+            "Ukiyo-e++, painting",                         # 6
+            "Alphonse Mucha++, painting",                  # 7
+            "John Collier++, painting",                    # 8
+            "Margaret Macdonald Mackintosh++, painting",   # 9
+            "Alma Thomas++, painting",                     # 10
+            "Kawanabe Kyosai++, painting",                 # 11
+            "Amrita Sher-Gil++, painting",                 # 12
+            "Ravi Varma++, painting",                      # 13
+            "Vincent van Gogh++, painting",                # 14
+            "Jacob Lawrence++, painting",                  # 15
+            "Salvador Dali++, painting",                   # 16
+            "John Singer Sargent++, painting",             # 17
+            "Brad Rigney++, painting",                     # 18
+            "Andrew Warhol++, painting",                   # 19
+            "Android Jones++, painting"                    # 20
         ]
         self.prompt_suffix = \
             f"high quality, best quality, highly detailed, ultra detailed, " \
             f"masterpiece, " \
-            f"{styles[1]}"
+            f"{styles[0]}"
 
         self.negative_prompt = \
             "ugly, lowres, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \

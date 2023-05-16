@@ -168,6 +168,12 @@ def parse_args():
         help="The output directory where the model predictions and checkpoints will be written.",
     )
     parser.add_argument(
+        "--init_model_dir",
+        type=str,
+        default=None,
+        help="The directory where the LoRA model is stored.",
+    )
+    parser.add_argument(
         "--cache_dir",
         type=str,
         default=None,
@@ -444,22 +450,31 @@ def main():
     # - up blocks (2x attention layers) * (3x transformer layers) * (3x down blocks) = 18
     # => 32 layers
 
-    # Set correct lora layers
-    lora_attn_procs = {}
-    for name in unet.attn_processors.keys():
-        cross_attention_dim = None if name.endswith("attn1.processor") else unet.config.cross_attention_dim
-        if name.startswith("mid_block"):
-            hidden_size = unet.config.block_out_channels[-1]
-        elif name.startswith("up_blocks"):
-            block_id = int(name[len("up_blocks.")])
-            hidden_size = list(reversed(unet.config.block_out_channels))[block_id]
-        elif name.startswith("down_blocks"):
-            block_id = int(name[len("down_blocks.")])
-            hidden_size = unet.config.block_out_channels[block_id]
-
-        lora_attn_procs[name] = LoRAAttnProcessor(hidden_size=hidden_size, cross_attention_dim=cross_attention_dim)
-
-    unet.set_attn_processor(lora_attn_procs)
+    try:
+        assert args.init_model_dir is not None
+        print("Loading the trained LoRA modules ...")
+        unet.load_attn_procs(args.init_model_dir, for_finetuning=True)
+    except Exception as e:
+        print(e)
+        print(f"`init_model_dir`: {args.init_model_dir} is invalid, constructing new LoRA modules ...")
+        # Set correct lora layers
+        lora_attn_procs = {}
+        for name in unet.attn_processors.keys():
+            cross_attention_dim = None if name.endswith("attn1.processor") else unet.config.cross_attention_dim
+            if name.startswith("mid_block"):
+                hidden_size = unet.config.block_out_channels[-1]
+            elif name.startswith("up_blocks"):
+                block_id = int(name[len("up_blocks.")])
+                hidden_size = list(reversed(unet.config.block_out_channels))[block_id]
+            elif name.startswith("down_blocks"):
+                block_id = int(name[len("down_blocks.")])
+                hidden_size = unet.config.block_out_channels[block_id]
+            lora_attn_procs[name] = LoRAAttnProcessor(
+                hidden_size=hidden_size,
+                cross_attention_dim=cross_attention_dim,
+                use_extended=True
+            )
+        unet.set_attn_processor(lora_attn_procs)
 
     if args.enable_xformers_memory_efficient_attention:
         if is_xformers_available():
