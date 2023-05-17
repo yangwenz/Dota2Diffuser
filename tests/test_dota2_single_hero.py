@@ -82,7 +82,7 @@ class TestDiffuser(unittest.TestCase):
             negative_prompt=self.negative_prompt,
             cross_attention_kwargs={"label": hero_index}
         ).images[0]
-        image.save(os.path.join(output_dir, "test_32.png"))
+        image.save(os.path.join(output_dir, "test_33.png"))
 
 
 if __name__ == "__main__":
