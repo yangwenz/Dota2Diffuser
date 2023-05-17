@@ -21,6 +21,6 @@ accelerate launch --mixed_precision="fp16" train_lora.py \
   --output_dir=$MODEL_DIR \
   --init_model_dir=$INIT_MODEL_DIR \
   --validation_prompt="windranger_spirit_dota, full body, best quality, ultra detailed, masterpiece" \
-  --validation_label_index=76 \
+  --validation_label_index=120 \
   --num_validation_images=4 \
   --validation_epochs=10
