@@ -10,7 +10,7 @@ class TestDiffuser(unittest.TestCase):
     def setUp(self) -> None:
         self.config = ConfigParser()
         styles = [
-            "illustration, beautiful detailed eyes, depth of field",     # 0
+            "illustration, beautiful detailed eyes",       # 0
             "artstation, hyperrealistic, elegant",         # 1
             "cosplay, ultra realistic, elegant",           # 2
             "pop up paper card",                           # 3
@@ -77,12 +77,12 @@ class TestDiffuser(unittest.TestCase):
         image = pipeline(
             # prompt=prompt,
             prompt_embeds=prompt_embeds,
-            width=512,
-            height=512,
+            width=480,
+            height=720,
             negative_prompt=self.negative_prompt,
             cross_attention_kwargs={"label": hero_index}
         ).images[0]
-        image.save(os.path.join(output_dir, "test_29.png"))
+        image.save(os.path.join(output_dir, "test_32.png"))
 
 
 if __name__ == "__main__":
