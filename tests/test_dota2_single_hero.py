@@ -16,22 +16,22 @@ class TestDiffuser(unittest.TestCase):
             "pop up paper card",                           # 3
             "porcelain statue",                            # 4
 
-            "Takashi Murakami++, painting",                # 5
-            "Ukiyo-e++, painting",                         # 6
-            "Alphonse Mucha++, painting",                  # 7
+            "Takashi Murakami++",                          # 5
+            "Ukiyo-e++",                                   # 6
+            "Alphonse Mucha++",                            # 7
             "John Collier++, painting",                    # 8
             "Margaret Macdonald Mackintosh++, painting",   # 9
-            "Alma Thomas++, painting",                     # 10
-            "Kawanabe Kyosai++, painting",                 # 11
-            "Amrita Sher-Gil++, painting",                 # 12
-            "Ravi Varma++, painting",                      # 13
-            "Vincent van Gogh++, painting",                # 14
-            "Jacob Lawrence++, painting",                  # 15
-            "Salvador Dali++, painting",                   # 16
+            "Alma Thomas++",                               # 10
+            "Kawanabe Kyosai++",                           # 11
+            "Amrita Sher-Gil++",                           # 12
+            "Ravi Varma++",                                # 13
+            "Vincent van Gogh",                            # 14
+            "Jacob Lawrence++",                            # 15
+            "Salvador Dali++",                             # 16
             "John Singer Sargent++, painting",             # 17
-            "Brad Rigney++, painting",                     # 18
-            "Andrew Warhol++, painting",                   # 19
-            "Android Jones++, painting"                    # 20
+            "Brad Rigney++",                               # 18
+            "Andrew Warhol, painting",                     # 19
+            "Android Jones++"                              # 20
         ]
         self.prompt_suffix = \
             f"high quality, best quality, highly detailed, ultra detailed, " \
@@ -82,7 +82,7 @@ class TestDiffuser(unittest.TestCase):
             negative_prompt=self.negative_prompt,
             cross_attention_kwargs={"label": hero_index}
         ).images[0]
-        image.save(os.path.join(output_dir, "test_25.png"))
+        image.save(os.path.join(output_dir, "test_29.png"))
 
 
 if __name__ == "__main__":
