@@ -10,7 +10,7 @@ class TestDiffuser(unittest.TestCase):
     def setUp(self) -> None:
         self.config = ConfigParser()
         styles = [
-            "illustration, beautiful detailed eyes",       # 0
+            "illustration, beautiful detailed eyes, elegant",       # 0
             "artstation, hyperrealistic, elegant",         # 1
             "cosplay, ultra realistic, elegant",           # 2
             "pop up paper card",                           # 3
