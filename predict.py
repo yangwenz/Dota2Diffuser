@@ -42,15 +42,23 @@ class Predictor(BasePredictor):
             self,
             hero: str = Input(
                 description="Input dota 2 hero",
-                default="Crystal Maiden",
+                default="Lina",
             ),
             prompt: str = Input(
                 description="Input prompt",
-                default="crystal_maiden_dota standing in a city",
+                default="lina_dota standing in a city, "
+                        "high quality, best quality, highly detailed, ultra detailed, "
+                        "masterpiece, illustration, beautiful detailed eyes",
             ),
             negative_prompt: str = Input(
                 description="Specify things to not see in the output",
-                default=None,
+                default="ugly, lowres, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, "
+                        "out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, "
+                        "watermark, signature, cut off, low contrast, underexposed, overexposed, "
+                        "bad art, beginner, amateur, distorted face, blurry, draft, grainy, bad hands, "
+                        "missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, "
+                        "text, error, normal quality, jpeg artifacts, username, artist name, fused clothes, "
+                        "poorly drawn clothes",
             ),
             width: int = Input(
                 description="Width of output image. Maximum size is 1024x768 or 768x1024 because of memory limits",
