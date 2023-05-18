@@ -31,5 +31,8 @@ build:
     # - "echo env is ready!"
     # - "echo another command if needed"
 
+# The name given to built Docker images
+image: "r8.im/yangwenz/dota2-ywz"
+
 # predict.py defines how predictions are run on your model
 predict: "predict.py:Predictor"
