@@ -10,32 +10,31 @@ class TestDiffuser(unittest.TestCase):
     def setUp(self) -> None:
         self.config = ConfigParser()
         styles = [
-            "illustration, beautiful detailed eyes, elegant",       # 0
-            "artstation, hyperrealistic, elegant",         # 1
-            "cosplay, ultra realistic, elegant",           # 2
-            "pop up paper card",                           # 3
-            "porcelain statue",                            # 4
+            "beautiful detailed face, beautiful detailed eyes, cinematic lighting, painting, award-winning",       # 0
+            "beautiful detailed eyes, beautiful detailed face, cinematic lighting, trending on artstation, award-winning",         # 1
+            "cosplay, ultra realistic, highly detailed eyes, cinematic lighting, highres",           # 2
+            "porcelain statue++, perfect face",            # 3
 
-            "Takashi Murakami++",                          # 5
-            "Ukiyo-e++",                                   # 6
-            "Alphonse Mucha++",                            # 7
-            "John Collier++, painting",                    # 8
-            "Margaret Macdonald Mackintosh++, painting",   # 9
-            "Alma Thomas++",                               # 10
-            "Kawanabe Kyosai++",                           # 11
-            "Amrita Sher-Gil++",                           # 12
-            "Ravi Varma++",                                # 13
-            "Vincent van Gogh",                            # 14
-            "Jacob Lawrence++",                            # 15
-            "Salvador Dali++",                             # 16
-            "John Singer Sargent++, painting",             # 17
-            "Brad Rigney++",                               # 18
-            "Andrew Warhol, painting",                     # 19
-            "Android Jones++"                              # 20
+            "Takashi Murakami++",                          # 4
+            "Ukiyo-e++",                                   # 5
+            "Alphonse Mucha++",                            # 6
+            "John Collier++, painting",                    # 7
+            "Margaret Macdonald Mackintosh++, painting",   # 8
+            "Alma Thomas++",                               # 9
+            "Kawanabe Kyosai++",                           # 10
+            "Amrita Sher-Gil++",                           # 11
+            "Ravi Varma++",                                # 12
+            "Vincent van Gogh",                            # 13
+            "Jacob Lawrence++",                            # 14
+            "Salvador Dali++",                             # 15
+            "John Singer Sargent++, painting",             # 16
+            "Brad Rigney++",                               # 17
+            "Andrew Warhol, painting",                     # 18
+            "Android Jones++"                              # 19
         ]
         self.prompt_suffix = \
-            f"high quality, best quality, highly detailed, ultra detailed, " \
-            f"masterpiece, " \
+            f"full body, best quality, highest quality, ultra detailed, masterpiece, " \
+            f"intricate, " \
             f"{styles[0]}"
 
         self.negative_prompt = \
@@ -44,16 +43,16 @@ class TestDiffuser(unittest.TestCase):
             "watermark, signature, cut off, low contrast, underexposed, overexposed, " \
             "bad art, beginner, amateur, distorted face, blurry, draft, grainy, bad hands, " \
             "missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, " \
-            "text, error, normal quality, jpeg artifacts, username, artist name, fused clothes, " \
-            "poorly drawn clothes"
+            "text, error, normal quality, jpeg artifacts, artist logo, artist name, fused clothes, " \
+            "poorly drawn clothes, missing arms, missing legs, extra arms, extra legs, extra fingers"
 
     def test_diffuser(self):
         output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "save")
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        model_dir = "/home/ywz/data/dota2/model"
-        hero = "Crystal Maiden"
+        model_dir = "/home/ywz/data/dota2/model_2"
+        hero = "Lina"
         hero_index = self.config.hero2index[hero]
 
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
@@ -82,7 +81,7 @@ class TestDiffuser(unittest.TestCase):
             negative_prompt=self.negative_prompt,
             cross_attention_kwargs={"label": hero_index}
         ).images[0]
-        image.save(os.path.join(output_dir, "test_34.png"))
+        image.save(os.path.join(output_dir, "test_36.png"))
 
 
 if __name__ == "__main__":
