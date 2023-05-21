@@ -46,9 +46,10 @@ class Predictor(BasePredictor):
             ),
             prompt: str = Input(
                 description="Input prompt",
-                default="lina_dota standing in a city, "
-                        "high quality, best quality, highly detailed, ultra detailed, "
-                        "masterpiece, illustration, beautiful detailed eyes",
+                default="lina_dota, standing on a bridge, "
+                        "best quality, highest quality, ultra detailed, "
+                        "masterpiece, intricate, beautiful detailed face, beautiful detailed eyes, "
+                        "cinematic lighting, painting, award-winning",
             ),
             negative_prompt: str = Input(
                 description="Specify things to not see in the output",
@@ -57,8 +58,8 @@ class Predictor(BasePredictor):
                         "watermark, signature, cut off, low contrast, underexposed, overexposed, "
                         "bad art, beginner, amateur, distorted face, blurry, draft, grainy, bad hands, "
                         "missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, "
-                        "text, error, normal quality, jpeg artifacts, username, artist name, fused clothes, "
-                        "poorly drawn clothes",
+                        "text, error, normal quality, jpeg artifacts, artist logo, artist name, fused clothes, "
+                        "poorly drawn clothes, missing arms, missing legs, extra arms, extra legs, extra fingers"
             ),
             width: int = Input(
                 description="Width of output image. Maximum size is 1024x768 or 768x1024 because of memory limits",
