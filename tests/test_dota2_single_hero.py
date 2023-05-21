@@ -10,11 +10,16 @@ class TestDiffuser(unittest.TestCase):
     def setUp(self) -> None:
         self.config = ConfigParser()
         styles = [
-            "beautiful detailed face, beautiful detailed eyes, cinematic lighting, painting, award-winning",       # 0
-            "beautiful detailed face, beautiful detailed eyes, cinematic lighting, trending on artstation, award-winning",         # 1
-            "cosplay, ultra realistic, highly detailed eyes, cinematic lighting, highres",           # 2
-            "porcelain statue++, perfect face",            # 3
+            "beautiful detailed face, beautiful detailed eyes, cinematic lighting, "
+            "painting, award-winning, 8k wallpaper, highres, superb",
 
+            "beautiful detailed face, beautiful detailed eyes, cinematic lighting, "
+            "trending on artstation, award-winning, 8k wallpaper, highres, superb",
+
+            "cosplay, ultra realistic, highly detailed eyes, cinematic lighting, "
+            "8k wallpaper, highres, superb",
+
+            "porcelain statue++, perfect face",            # 3
             "Takashi Murakami++",                          # 4
             "Ukiyo-e++",                                   # 5
             "Alphonse Mucha++",                            # 6
@@ -34,8 +39,7 @@ class TestDiffuser(unittest.TestCase):
         ]
         self.prompt_suffix = \
             f"best quality, highest quality, ultra detailed, masterpiece, " \
-            f"intricate, " \
-            f"{styles[0]}"
+            f"intricate, {styles[0]}"
 
         self.negative_prompt = \
             "ugly, lowres, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
@@ -56,7 +60,7 @@ class TestDiffuser(unittest.TestCase):
         hero_index = self.config.hero2index[hero]
 
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
-        content = f"{hero_token}, bikini++, standing"
+        content = f"{hero_token}, standing++ on the street++"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
