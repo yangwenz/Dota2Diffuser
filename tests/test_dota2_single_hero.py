@@ -57,7 +57,7 @@ class TestDiffuser(unittest.TestCase):
         hero_index = self.config.hero2index[hero]
 
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
-        content = f"{hero_token}, standing++ on the street++"
+        content = f"{hero_token}, standing on the street"
         prompt = f"{content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
@@ -82,7 +82,7 @@ class TestDiffuser(unittest.TestCase):
             negative_prompt=self.negative_prompt,
             cross_attention_kwargs={"label": hero_index}
         ).images[0]
-        image.save(os.path.join(output_dir, "test_36.png"))
+        image.save(os.path.join(output_dir, "test_37.png"))
 
 
 if __name__ == "__main__":
