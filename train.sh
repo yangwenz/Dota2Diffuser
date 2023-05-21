@@ -2,7 +2,7 @@
 
 export MODEL_NAME="/home/ywz/data/models/stable-diffusion-v1-5"
 export DATASET_DIR="/home/ywz/data/dota2/heroes/selected/train"
-export MODEL_DIR="/home/ywz/data/dota2/model"
+export MODEL_DIR="/home/ywz/data/dota2/model_2"
 export INIT_MODEL_DIR=$MODEL_DIR
 
 accelerate launch --mixed_precision="fp16" train_lora.py \
@@ -13,6 +13,7 @@ accelerate launch --mixed_precision="fp16" train_lora.py \
   --random_flip \
   --train_batch_size=2 \
   --num_train_epochs=100 \
+  --lora_rank=4 \
   --checkpointing_steps=5000 \
   --learning_rate=1e-4 \
   --lr_scheduler="constant" \
