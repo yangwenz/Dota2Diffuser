@@ -11,31 +11,28 @@ class TestDiffuser(unittest.TestCase):
         self.config = ConfigParser()
         styles = [
             "beautiful detailed face, beautiful detailed eyes, cinematic lighting, "
-            "painting, award-winning, 8k wallpaper, highres, superb",
-
-            "beautiful detailed face, beautiful detailed eyes, cinematic lighting, "
             "trending on artstation, award-winning, 8k wallpaper, highres, superb",
 
             "cosplay, ultra realistic, highly detailed eyes, cinematic lighting, "
             "8k wallpaper, highres, superb",
 
-            "porcelain statue++, perfect face",            # 3
-            "Takashi Murakami++",                          # 4
-            "Ukiyo-e++",                                   # 5
-            "Alphonse Mucha++",                            # 6
-            "John Collier++, painting",                    # 7
-            "Margaret Macdonald Mackintosh++, painting",   # 8
-            "Alma Thomas++",                               # 9
-            "Kawanabe Kyosai++",                           # 10
-            "Amrita Sher-Gil++",                           # 11
-            "Ravi Varma++",                                # 12
-            "Vincent van Gogh",                            # 13
-            "Jacob Lawrence++",                            # 14
-            "Salvador Dali++",                             # 15
-            "John Singer Sargent++, painting",             # 16
-            "Brad Rigney++",                               # 17
-            "Andrew Warhol, painting",                     # 18
-            "Android Jones++"                              # 19
+            "porcelain statue++, perfect face",            # 2
+            "Takashi Murakami++",                          # 3
+            "Ukiyo-e++",                                   # 4
+            "Alphonse Mucha++",                            # 5
+            "John Collier++, painting",                    # 6
+            "Margaret Macdonald Mackintosh++, painting",   # 7
+            "Alma Thomas++",                               # 8
+            "Kawanabe Kyosai++",                           # 9
+            "Amrita Sher-Gil++",                           # 10
+            "Ravi Varma++",                                # 11
+            "Vincent van Gogh",                            # 12
+            "Jacob Lawrence++",                            # 13
+            "Salvador Dali++",                             # 14
+            "John Singer Sargent++, painting",             # 15
+            "Brad Rigney++",                               # 16
+            "Andrew Warhol, painting",                     # 17
+            "Android Jones++"                              # 18
         ]
         self.prompt_suffix = \
             f"best quality, highest quality, ultra detailed, masterpiece, " \
