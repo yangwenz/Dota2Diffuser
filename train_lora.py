@@ -132,6 +132,9 @@ def parse_args():
         help="The column of the dataset containing a caption or a list of captions.",
     )
     parser.add_argument(
+        "--lora_rank", type=int, default=4, help="The LoRA rank."
+    )
+    parser.add_argument(
         "--validation_prompt", type=str, default=None, help="A prompt that is sampled during training for inference."
     )
     parser.add_argument(
@@ -472,7 +475,8 @@ def main():
             lora_attn_procs[name] = LoRAAttnProcessor(
                 hidden_size=hidden_size,
                 cross_attention_dim=cross_attention_dim,
-                use_extended=True
+                use_extended=True,
+                rank=args.lora_rank
             )
         unet.set_attn_processor(lora_attn_procs)
 

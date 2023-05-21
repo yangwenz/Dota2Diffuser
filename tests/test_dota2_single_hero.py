@@ -11,7 +11,7 @@ class TestDiffuser(unittest.TestCase):
         self.config = ConfigParser()
         styles = [
             "beautiful detailed face, beautiful detailed eyes, cinematic lighting, painting, award-winning",       # 0
-            "beautiful detailed eyes, beautiful detailed face, cinematic lighting, trending on artstation, award-winning",         # 1
+            "beautiful detailed face, beautiful detailed eyes, cinematic lighting, trending on artstation, award-winning",         # 1
             "cosplay, ultra realistic, highly detailed eyes, cinematic lighting, highres",           # 2
             "porcelain statue++, perfect face",            # 3
 
@@ -33,7 +33,7 @@ class TestDiffuser(unittest.TestCase):
             "Android Jones++"                              # 19
         ]
         self.prompt_suffix = \
-            f"full body, best quality, highest quality, ultra detailed, masterpiece, " \
+            f"best quality, highest quality, ultra detailed, masterpiece, " \
             f"intricate, " \
             f"{styles[0]}"
 
@@ -52,7 +52,7 @@ class TestDiffuser(unittest.TestCase):
             os.makedirs(output_dir)
 
         model_dir = "/home/ywz/data/dota2/model_2"
-        hero = "Lina"
+        hero = "Crystal Maiden"
         hero_index = self.config.hero2index[hero]
 
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
