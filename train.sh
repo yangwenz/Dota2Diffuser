@@ -2,7 +2,7 @@
 
 export MODEL_NAME="/home/ywz/data/models/stable-diffusion-v1-5"
 export DATASET_DIR="/home/ywz/data/dota2/heroes/selected/train"
-export MODEL_DIR="/home/ywz/data/dota2/model_2"
+export MODEL_DIR="/home/ywz/data/dota2/model"
 export INIT_MODEL_DIR=$MODEL_DIR
 
 accelerate launch --mixed_precision="fp16" train_lora.py \
@@ -11,7 +11,7 @@ accelerate launch --mixed_precision="fp16" train_lora.py \
   --caption_column="text" \
   --resolution=512 \
   --random_flip \
-  --train_batch_size=2 \
+  --train_batch_size=1 \
   --num_train_epochs=100 \
   --lora_rank=4 \
   --checkpointing_steps=5000 \
@@ -21,7 +21,7 @@ accelerate launch --mixed_precision="fp16" train_lora.py \
   --seed=1234 \
   --output_dir=$MODEL_DIR \
   --init_model_dir=$INIT_MODEL_DIR \
-  --validation_prompt="lina_dota, full body, best quality, ultra detailed, masterpiece" \
-  --validation_label_index=98 \
+  --validation_prompt="crystal_maiden_dota, full body, best quality, ultra detailed, masterpiece" \
+  --validation_label_index=84 \
   --num_validation_images=4 \
   --validation_epochs=10
