@@ -16,23 +16,27 @@ class TestDiffuser(unittest.TestCase):
             "cosplay, ultra realistic, highly detailed eyes, cinematic lighting, "
             "8k wallpaper, highres, superb",
 
-            "porcelain statue++, perfect face",            # 2
-            "Takashi Murakami++",                          # 3
-            "Ukiyo-e++",                                   # 4
-            "Alphonse Mucha++",                            # 5
-            "John Collier++, painting",                    # 6
-            "Margaret Macdonald Mackintosh++, painting",   # 7
-            "Alma Thomas++",                               # 8
-            "Kawanabe Kyosai++",                           # 9
-            "Amrita Sher-Gil++",                           # 10
-            "Ravi Varma++",                                # 11
-            "Vincent van Gogh",                            # 12
-            "Jacob Lawrence++",                            # 13
-            "Salvador Dali++",                             # 14
-            "John Singer Sargent++, painting",             # 15
-            "Brad Rigney++",                               # 16
-            "Andrew Warhol, painting",                     # 17
-            "Android Jones++"                              # 18
+            "1girl, tachi-e, original, illustration, ink splashing, "
+            "color splashing, watercolor, make happy expressions, soft smile, pure, "
+            "beautiful detailed face and eyes, beautiful intricacy clothing, full body"
+
+            "porcelain statue++, perfect face",            # 3
+            "Takashi Murakami++",                          # 4
+            "Ukiyo-e++",                                   # 5
+            "Alphonse Mucha++",                            # 6
+            "John Collier++, painting",                    # 7
+            "Margaret Macdonald Mackintosh++, painting",   # 8
+            "Alma Thomas++",                               # 9
+            "Kawanabe Kyosai++",                           # 10
+            "Amrita Sher-Gil++",                           # 11
+            "Ravi Varma++",                                # 12
+            "Vincent van Gogh",                            # 13
+            "Jacob Lawrence++",                            # 14
+            "Salvador Dali++",                             # 15
+            "John Singer Sargent++, painting",             # 16
+            "Brad Rigney++",                               # 17
+            "Andrew Warhol, painting",                     # 18
+            "Android Jones++"                              # 19
         ]
         self.prompt_suffix = \
             f"best quality, highest quality, ultra detailed, masterpiece, " \
@@ -57,8 +61,8 @@ class TestDiffuser(unittest.TestCase):
         hero_index = self.config.hero2index[hero]
 
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
-        content = f"{hero_token}, standing on the street"
-        prompt = f"{content}, {self.prompt_suffix}".strip().lower()
+        content = "a girl standing on the street"
+        prompt = f"{hero_token}, {content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
         pipeline = StableDiffusionPipeline.from_pretrained(
@@ -82,7 +86,7 @@ class TestDiffuser(unittest.TestCase):
             negative_prompt=self.negative_prompt,
             cross_attention_kwargs={"label": hero_index}
         ).images[0]
-        image.save(os.path.join(output_dir, "test_37.png"))
+        image.save(os.path.join(output_dir, "test_38.png"))
 
 
 if __name__ == "__main__":
