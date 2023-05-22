@@ -1,0 +1,38 @@
+# Configuration for Cog ⚙️
+# Reference: https://github.com/replicate/cog/blob/main/docs/yaml.md
+
+build:
+  # set to true if your model requires a GPU
+  gpu: true
+  cuda: "11.7"
+
+  # a list of ubuntu apt packages to install
+  # system_packages:
+    # - "libgl1-mesa-glx"
+    # - "libglib2.0-0"
+
+  # python version in the form '3.8' or '3.8.12'
+  python_version: "3.8"
+
+  # a list of packages in the format <package-name>==<version>
+  python_packages:
+    - "torch==2.0.1"
+    - "torchvision"
+    - "accelerate>=0.16.0"
+    - "transformers==4.28.1"
+    - "datasets"
+    - "ftfy"
+    - "tensorboard"
+    - "Jinja2"
+    - "compel"
+  
+  # commands run after the environment is setup
+  # run:
+    # - "echo env is ready!"
+    # - "echo another command if needed"
+
+# The name given to built Docker images
+image: "r8.im/yangwenz/dota2-heros"
+
+# predict.py defines how predictions are run on your model
+predict: "predict.py:Predictor"

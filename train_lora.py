@@ -132,7 +132,13 @@ def parse_args():
         help="The column of the dataset containing a caption or a list of captions.",
     )
     parser.add_argument(
+        "--lora_rank", type=int, default=4, help="The LoRA rank."
+    )
+    parser.add_argument(
         "--validation_prompt", type=str, default=None, help="A prompt that is sampled during training for inference."
+    )
+    parser.add_argument(
+        "--validation_label_index", type=int, default=None, help="The index of the class label."
     )
     parser.add_argument(
         "--num_validation_images",
@@ -163,6 +169,12 @@ def parse_args():
         type=str,
         default="sd-model-finetuned-lora",
         help="The output directory where the model predictions and checkpoints will be written.",
+    )
+    parser.add_argument(
+        "--init_model_dir",
+        type=str,
+        default=None,
+        help="The directory where the LoRA model is stored.",
     )
     parser.add_argument(
         "--cache_dir",
@@ -441,22 +453,32 @@ def main():
     # - up blocks (2x attention layers) * (3x transformer layers) * (3x down blocks) = 18
     # => 32 layers
 
-    # Set correct lora layers
-    lora_attn_procs = {}
-    for name in unet.attn_processors.keys():
-        cross_attention_dim = None if name.endswith("attn1.processor") else unet.config.cross_attention_dim
-        if name.startswith("mid_block"):
-            hidden_size = unet.config.block_out_channels[-1]
-        elif name.startswith("up_blocks"):
-            block_id = int(name[len("up_blocks.")])
-            hidden_size = list(reversed(unet.config.block_out_channels))[block_id]
-        elif name.startswith("down_blocks"):
-            block_id = int(name[len("down_blocks.")])
-            hidden_size = unet.config.block_out_channels[block_id]
-
-        lora_attn_procs[name] = LoRAAttnProcessor(hidden_size=hidden_size, cross_attention_dim=cross_attention_dim)
-
-    unet.set_attn_processor(lora_attn_procs)
+    try:
+        assert args.init_model_dir is not None
+        print("Loading the trained LoRA modules ...")
+        unet.load_attn_procs(args.init_model_dir, for_finetuning=True)
+    except Exception as e:
+        print(e)
+        print(f"`init_model_dir`: {args.init_model_dir} is invalid, constructing new LoRA modules ...")
+        # Set correct lora layers
+        lora_attn_procs = {}
+        for name in unet.attn_processors.keys():
+            cross_attention_dim = None if name.endswith("attn1.processor") else unet.config.cross_attention_dim
+            if name.startswith("mid_block"):
+                hidden_size = unet.config.block_out_channels[-1]
+            elif name.startswith("up_blocks"):
+                block_id = int(name[len("up_blocks.")])
+                hidden_size = list(reversed(unet.config.block_out_channels))[block_id]
+            elif name.startswith("down_blocks"):
+                block_id = int(name[len("down_blocks.")])
+                hidden_size = unet.config.block_out_channels[block_id]
+            lora_attn_procs[name] = LoRAAttnProcessor(
+                hidden_size=hidden_size,
+                cross_attention_dim=cross_attention_dim,
+                use_extended=True,
+                rank=args.lora_rank
+            )
+        unet.set_attn_processor(lora_attn_procs)
 
     if args.enable_xformers_memory_efficient_attention:
         if is_xformers_available():
@@ -597,7 +619,11 @@ def main():
         pixel_values = torch.stack([example["pixel_values"] for example in examples])
         pixel_values = pixel_values.to(memory_format=torch.contiguous_format).float()
         input_ids = torch.stack([example["input_ids"] for example in examples])
-        return {"pixel_values": pixel_values, "input_ids": input_ids}
+        if "label" in examples[0]:
+            label = torch.tensor([example["label"] for example in examples], dtype=torch.int)
+        else:
+            label = None
+        return {"pixel_values": pixel_values, "input_ids": input_ids, "label": label}
 
     # DataLoaders creation:
     train_dataloader = torch.utils.data.DataLoader(
@@ -725,7 +751,12 @@ def main():
                     raise ValueError(f"Unknown prediction type {noise_scheduler.config.prediction_type}")
 
                 # Predict the noise residual and compute loss
-                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states).sample
+                model_pred = unet(
+                    noisy_latents,
+                    timesteps,
+                    encoder_hidden_states,
+                    cross_attention_kwargs={"label": batch["label"]}
+                ).sample
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).
@@ -783,7 +814,12 @@ def main():
                 images = []
                 for _ in range(args.num_validation_images):
                     images.append(
-                        pipeline(args.validation_prompt, num_inference_steps=30, generator=generator).images[0]
+                        pipeline(
+                            args.validation_prompt,
+                            num_inference_steps=30,
+                            generator=generator,
+                            cross_attention_kwargs={"label": args.validation_label_index}
+                        ).images[0]
                     )
 
                 for tracker in accelerator.trackers:
@@ -842,7 +878,12 @@ def main():
     generator = torch.Generator(device=accelerator.device).manual_seed(args.seed)
     images = []
     for _ in range(args.num_validation_images):
-        images.append(pipeline(args.validation_prompt, num_inference_steps=30, generator=generator).images[0])
+        images.append(pipeline(
+            args.validation_prompt,
+            num_inference_steps=30,
+            generator=generator,
+            cross_attention_kwargs={"label": args.validation_label_index}
+        ).images[0])
 
     if accelerator.is_main_process:
         for tracker in accelerator.trackers:

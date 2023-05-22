@@ -13,9 +13,11 @@
 # limitations under the License.
 from typing import Callable, Optional, Union
 
+import math
 import torch
 import torch.nn.functional as F
 from torch import nn
+from torch.nn.parameter import Parameter
 
 from ..utils import deprecate, logging, maybe_allow_in_graph
 from ..utils.import_utils import is_xformers_available
@@ -429,7 +431,7 @@ class LoRALinearLayer(nn.Module):
         nn.init.normal_(self.down.weight, std=1 / rank)
         nn.init.zeros_(self.up.weight)
 
-    def forward(self, hidden_states):
+    def forward(self, hidden_states, **kwargs):
         orig_dtype = hidden_states.dtype
         dtype = self.down.weight.dtype
 
@@ -439,26 +441,83 @@ class LoRALinearLayer(nn.Module):
         return up_hidden_states.to(orig_dtype)
 
 
+class LinearExtended(nn.Module):
+    def __init__(self, in_features, out_features, max_num_labels, device=None, dtype=None):
+        factory_kwargs = {'device': device, 'dtype': dtype}
+        super().__init__()
+        self.in_features = in_features
+        self.out_features = out_features
+        self.max_num_labels = max_num_labels
+
+        self.weight_extended = Parameter(
+            torch.empty((max_num_labels, in_features, out_features), **factory_kwargs))
+        self.reset_parameters()
+
+    def reset_parameters(self) -> None:
+        nn.init.kaiming_uniform_(self.weight_extended, a=math.sqrt(5))
+
+    def forward(self, input, label, **kwargs):
+        assert input.shape[0] == label.shape[0]
+        weights = F.embedding(label, self.weight_extended.view((self.max_num_labels, -1)))
+        weights = weights.view((-1, self.in_features, self.out_features))
+        return torch.bmm(input, weights)
+
+
+class LoRALinearLayerExtended(nn.Module):
+    def __init__(self, in_features, out_features, rank=4, max_num_labels=130):
+        super().__init__()
+        if rank > min(in_features, out_features):
+            raise ValueError(f"LoRA rank {rank} must be less or equal than {min(in_features, out_features)}")
+
+        self.down = LinearExtended(in_features, rank, max_num_labels)
+        self.up = LinearExtended(rank, out_features, max_num_labels)
+
+        nn.init.normal_(self.down.weight_extended, std=1 / rank)
+        nn.init.zeros_(self.up.weight_extended)
+
+    def forward(self, hidden_states, label, **kwargs):
+        orig_dtype = hidden_states.dtype
+        dtype = self.down.weight_extended.dtype
+
+        down_hidden_states = self.down(hidden_states.to(dtype), label)
+        up_hidden_states = self.up(down_hidden_states, label)
+        return up_hidden_states.to(orig_dtype)
+
+
 class LoRAAttnProcessor(nn.Module):
-    def __init__(self, hidden_size, cross_attention_dim=None, rank=4):
+    def __init__(self, hidden_size, cross_attention_dim=None, rank=4, use_extended=True):
         super().__init__()
 
         self.hidden_size = hidden_size
         self.cross_attention_dim = cross_attention_dim
         self.rank = rank
 
-        self.to_q_lora = LoRALinearLayer(hidden_size, hidden_size, rank)
-        self.to_k_lora = LoRALinearLayer(cross_attention_dim or hidden_size, hidden_size, rank)
-        self.to_v_lora = LoRALinearLayer(cross_attention_dim or hidden_size, hidden_size, rank)
-        self.to_out_lora = LoRALinearLayer(hidden_size, hidden_size, rank)
+        if not use_extended:
+            self.to_q_lora = LoRALinearLayer(hidden_size, hidden_size, rank)
+            self.to_k_lora = LoRALinearLayer(cross_attention_dim or hidden_size, hidden_size, rank)
+            self.to_v_lora = LoRALinearLayer(cross_attention_dim or hidden_size, hidden_size, rank)
+            self.to_out_lora = LoRALinearLayer(hidden_size, hidden_size, rank)
+        else:
+            self.to_q_lora = LoRALinearLayerExtended(hidden_size, hidden_size, rank)
+            self.to_k_lora = LoRALinearLayerExtended(cross_attention_dim or hidden_size, hidden_size, rank)
+            self.to_v_lora = LoRALinearLayerExtended(cross_attention_dim or hidden_size, hidden_size, rank)
+            self.to_out_lora = LoRALinearLayerExtended(hidden_size, hidden_size, rank)
 
-    def __call__(self, attn: Attention, hidden_states, encoder_hidden_states=None, attention_mask=None, scale=1.0):
+    def __call__(
+            self,
+            attn: Attention,
+            hidden_states,
+            encoder_hidden_states=None,
+            attention_mask=None,
+            scale=1.0,
+            **kwargs
+    ):
         batch_size, sequence_length, _ = (
             hidden_states.shape if encoder_hidden_states is None else encoder_hidden_states.shape
         )
         attention_mask = attn.prepare_attention_mask(attention_mask, sequence_length, batch_size)
 
-        query = attn.to_q(hidden_states) + scale * self.to_q_lora(hidden_states)
+        query = attn.to_q(hidden_states) + scale * self.to_q_lora(hidden_states, **kwargs)
         query = attn.head_to_batch_dim(query)
 
         if encoder_hidden_states is None:
@@ -466,8 +525,8 @@ class LoRAAttnProcessor(nn.Module):
         elif attn.norm_cross:
             encoder_hidden_states = attn.norm_encoder_hidden_states(encoder_hidden_states)
 
-        key = attn.to_k(encoder_hidden_states) + scale * self.to_k_lora(encoder_hidden_states)
-        value = attn.to_v(encoder_hidden_states) + scale * self.to_v_lora(encoder_hidden_states)
+        key = attn.to_k(encoder_hidden_states) + scale * self.to_k_lora(encoder_hidden_states, **kwargs)
+        value = attn.to_v(encoder_hidden_states) + scale * self.to_v_lora(encoder_hidden_states, **kwargs)
 
         key = attn.head_to_batch_dim(key)
         value = attn.head_to_batch_dim(value)
@@ -477,10 +536,9 @@ class LoRAAttnProcessor(nn.Module):
         hidden_states = attn.batch_to_head_dim(hidden_states)
 
         # linear proj
-        hidden_states = attn.to_out[0](hidden_states) + scale * self.to_out_lora(hidden_states)
+        hidden_states = attn.to_out[0](hidden_states) + scale * self.to_out_lora(hidden_states, **kwargs)
         # dropout
         hidden_states = attn.to_out[1](hidden_states)
-
         return hidden_states
 
 
