@@ -59,9 +59,9 @@ class TestDiffuser(unittest.TestCase):
         model_dir = "/home/ywz/data/dota2/model"
         hero = "Crystal Maiden"
         hero_index = self.config.hero2index[hero]
-
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
-        content = "a girl standing on the street"
+
+        content = "a person standing on the street"
         prompt = f"{hero_token}, {content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
