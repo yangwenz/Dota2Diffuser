@@ -5,13 +5,16 @@ export DATASET_DIR="/home/ywz/data/dota2/heroes/selected/train"
 export MODEL_DIR="/home/ywz/data/dota2/model"
 export INIT_MODEL_DIR=$MODEL_DIR
 
+# training_batch_size: 1 or 2
+# num_train_epochs: 100, 120, or 150
+
 accelerate launch --mixed_precision="fp16" train_lora.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
   --train_data_dir=$DATASET_DIR \
   --caption_column="text" \
   --resolution=512 \
   --random_flip \
-  --train_batch_size=2 \
+  --train_batch_size=1 \
   --num_train_epochs=100 \
   --lora_rank=4 \
   --checkpointing_steps=5000 \

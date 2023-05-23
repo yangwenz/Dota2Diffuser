@@ -2,5 +2,6 @@ torch
 transformers
 datasets
 torchvision
+numpy
 wandb
 compel
