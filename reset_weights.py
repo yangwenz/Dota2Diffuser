@@ -6,8 +6,8 @@ from configs.parser import ConfigParser
 
 
 def reset_weights():
-    model_dir = "/home/ywz/data/dota2/model_3"
-    hero = "Marci"
+    model_dir = "/home/ywz/data/dota2/model"
+    hero = "Morphling"
     rank = 4
 
     config = ConfigParser()
