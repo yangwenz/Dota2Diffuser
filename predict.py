@@ -42,7 +42,7 @@ class Predictor(BasePredictor):
             self,
             hero: str = Input(
                 description="Input dota 2 hero",
-                default="Crystal Maiden",
+                default="Lina",
             ),
             prompt: str = Input(
                 description="Input prompt",
