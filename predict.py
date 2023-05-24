@@ -42,14 +42,14 @@ class Predictor(BasePredictor):
             self,
             hero: str = Input(
                 description="Input dota 2 hero",
-                default="Lina",
+                default="Crystal Maiden",
             ),
             prompt: str = Input(
                 description="Input prompt",
-                default="lina_dota, standing on a bridge, "
-                        "best quality, highest quality, ultra detailed, "
-                        "masterpiece, intricate, beautiful detailed face, beautiful detailed eyes, "
-                        "cinematic lighting, painting, award-winning",
+                default="a girl standing on a bridge, "
+                        "best quality, highest quality, ultra detailed, masterpiece, "
+                        "intricate, beautiful detailed eyes, cinematic lighting, "
+                        "trending on artstation, award-winning, 8k wallpaper, highres, superb"
             ),
             negative_prompt: str = Input(
                 description="Specify things to not see in the output",
@@ -59,16 +59,18 @@ class Predictor(BasePredictor):
                         "bad art, beginner, amateur, distorted face, blurry, draft, grainy, bad hands, "
                         "missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, "
                         "text, error, normal quality, jpeg artifacts, artist logo, artist name, fused clothes, "
-                        "poorly drawn clothes, missing arms, missing legs, extra arms, extra legs, extra fingers"
+                        "poorly drawn clothes, missing arms, missing legs, extra arms, extra legs, extra fingers, "
+                        "duplicate, cloned face, fused fingers, long neck, malformed limbs, morbid, "
+                        "mutated hands, mutation, mutilated"
             ),
             width: int = Input(
                 description="Width of output image. Maximum size is 1024x768 or 768x1024 because of memory limits",
-                choices=[128, 256, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024],
+                choices=[128, 256, 384, 448, 480, 512, 576, 640, 704, 720, 768, 832, 896, 960, 1024],
                 default=512,
             ),
             height: int = Input(
                 description="Height of output image. Maximum size is 1024x768 or 768x1024 because of memory limits",
-                choices=[128, 256, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024],
+                choices=[128, 256, 384, 448, 480, 512, 576, 640, 704, 720, 768, 832, 896, 960, 1024],
                 default=512,
             ),
             num_inference_steps: int = Input(
@@ -91,6 +93,9 @@ class Predictor(BasePredictor):
             if seed is not None else None
 
         hero_index = self.config.hero2index[hero]
+        hero_token = f"{hero.lower().replace(' ', '_')}_dota"
+        prompt = f"({hero_token})+, {prompt}"
+
         prompt_embeds = self.compel_proc(prompt)
         output = self.pipeline(
             prompt_embeds=prompt_embeds,
