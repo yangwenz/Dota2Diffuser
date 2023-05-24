@@ -50,7 +50,9 @@ class TestDiffuser(unittest.TestCase):
             "bad art, beginner, amateur, distorted face, blurry, draft, grainy, bad hands, " \
             "missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, " \
             "text, error, normal quality, jpeg artifacts, artist logo, artist name, fused clothes, " \
-            "poorly drawn clothes, missing arms, missing legs, extra arms, extra legs, extra fingers"
+            "poorly drawn clothes, missing arms, missing legs, extra arms, extra legs, extra fingers, " \
+            "duplicate, cloned face, fused fingers, long neck, malformed limbs, morbid, " \
+            "mutated hands, mutation, mutilated"
 
     def test_diffuser(self):
         output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "save")
@@ -62,7 +64,7 @@ class TestDiffuser(unittest.TestCase):
         hero_index = self.config.hero2index[hero]
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
 
-        content = "a person standing on the street"
+        content = "a cute girl standing on the bridge++, (full body)+++"
         prompt = f"({hero_token})+, {content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
