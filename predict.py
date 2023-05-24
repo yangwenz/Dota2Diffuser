@@ -65,13 +65,13 @@ class Predictor(BasePredictor):
             ),
             width: int = Input(
                 description="Width of output image. Maximum size is 1024x768 or 768x1024 because of memory limits",
-                choices=[128, 256, 384, 448, 480, 512, 576, 640, 704, 720, 768, 832, 896, 960, 1024],
-                default=480,
+                choices=[128, 256, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024],
+                default=512,
             ),
             height: int = Input(
                 description="Height of output image. Maximum size is 1024x768 or 768x1024 because of memory limits",
-                choices=[128, 256, 384, 448, 480, 512, 576, 640, 704, 720, 768, 832, 896, 960, 1024],
-                default=720,
+                choices=[128, 256, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024],
+                default=512,
             ),
             num_inference_steps: int = Input(
                 description="Number of denoising steps", ge=1, le=500, default=50
