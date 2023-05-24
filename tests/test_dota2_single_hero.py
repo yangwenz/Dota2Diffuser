@@ -19,8 +19,7 @@ class TestDiffuser(unittest.TestCase):
             "1girl, (tachi-e)+, original, illustration+, (ink splashing)+, "
             "(color splashing)+, watercolor+, make happy expressions, soft smile, pure, "
             "beautiful detailed face and eyes, beautiful intricacy clothing, outdoors, "
-            "(flower, woods)+, rocks, flower background, lake, (chinese style)++, "
-            "(full body)++",
+            "(flower, woods)+, rocks, flower background, lake, (full body)++",
 
             "(porcelain statue)++, perfect face",            # 3
             "(Takashi Murakami)++",                          # 4
@@ -42,7 +41,7 @@ class TestDiffuser(unittest.TestCase):
         ]
         self.prompt_suffix = \
             f"best quality, highest quality, ultra detailed, masterpiece, " \
-            f"intricate, {styles[0]}"
+            f"intricate, {styles[2]}"
 
         self.negative_prompt = \
             "ugly, lowres, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
