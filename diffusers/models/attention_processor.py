@@ -457,7 +457,6 @@ class LinearExtended(nn.Module):
         nn.init.kaiming_uniform_(self.weight_extended, a=math.sqrt(5))
 
     def forward(self, input, label, **kwargs):
-        assert input.shape[0] == label.shape[0]
         weights = F.embedding(label, self.weight_extended.view((self.max_num_labels, -1)))
         weights = weights.view((-1, self.in_features, self.out_features))
         return torch.bmm(input, weights)
