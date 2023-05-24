@@ -37,7 +37,8 @@ class TestDiffuser(unittest.TestCase):
             "(John Singer Sargent)++",                       # 16
             "(Brad Rigney)++",                               # 17
             "(Andrew Warhol)++",                             # 18
-            "(Android Jones)++"                              # 19
+            "(Android Jones)++",                             # 19
+            "(Pablo Picasso)+++"                             # 20
         ]
         self.prompt_suffix = \
             f"best quality, highest quality, ultra detailed, masterpiece, " \
