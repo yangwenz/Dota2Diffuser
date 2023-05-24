@@ -41,7 +41,7 @@ class TestDiffuser(unittest.TestCase):
         ]
         self.prompt_suffix = \
             f"best quality, highest quality, ultra detailed, masterpiece, " \
-            f"intricate, {styles[2]}"
+            f"intricate, {styles[0]}"
 
         self.negative_prompt = \
             "ugly, lowres, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
