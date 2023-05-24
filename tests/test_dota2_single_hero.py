@@ -10,33 +10,35 @@ class TestDiffuser(unittest.TestCase):
     def setUp(self) -> None:
         self.config = ConfigParser()
         styles = [
-            "beautiful detailed face, cinematic lighting, "
+            "beautiful detailed eyes, cinematic lighting, "
             "trending on artstation, award-winning, 8k wallpaper, highres, superb",
 
             "cosplay, ultra realistic, highly detailed eyes, cinematic lighting, "
             "8k wallpaper, highres, superb",
 
-            "1girl, tachi-e, original, illustration, ink splashing, "
-            "color splashing, watercolor, make happy expressions, soft smile, pure, "
-            "beautiful detailed face and eyes, beautiful intricacy clothing, full body"
+            "1girl, (tachi-e)+, original, illustration+, (ink splashing)+, "
+            "(color splashing)+, watercolor+, make happy expressions, soft smile, pure, "
+            "beautiful detailed face and eyes, beautiful intricacy clothing, outdoors, "
+            "(flower, woods)+, rocks, flower background, lake, (chinese style)++, "
+            "(full body)++",
 
-            "porcelain statue++, perfect face",            # 3
-            "Takashi Murakami++",                          # 4
-            "Ukiyo-e++",                                   # 5
-            "Alphonse Mucha++",                            # 6
-            "John Collier++, painting",                    # 7
-            "Margaret Macdonald Mackintosh++, painting",   # 8
-            "Alma Thomas++",                               # 9
-            "Kawanabe Kyosai++",                           # 10
-            "Amrita Sher-Gil++",                           # 11
-            "Ravi Varma++",                                # 12
-            "Vincent van Gogh",                            # 13
-            "Jacob Lawrence++",                            # 14
-            "Salvador Dali++",                             # 15
-            "John Singer Sargent++, painting",             # 16
-            "Brad Rigney++",                               # 17
-            "Andrew Warhol, painting",                     # 18
-            "Android Jones++"                              # 19
+            "(porcelain statue)++, perfect face",            # 3
+            "(Takashi Murakami)++",                          # 4
+            "(Ukiyo-e)++",                                   # 5
+            "(Alphonse Mucha)++",                            # 6
+            "(John Collier)++",                              # 7
+            "(Margaret Macdonald Mackintosh)++",             # 8
+            "(Alma Thomas)++",                               # 9
+            "(Kawanabe Kyosai)++",                           # 10
+            "(Amrita Sher-Gil)++",                           # 11
+            "(Ravi Varma)++",                                # 12
+            "(Vincent van Gogh)++",                          # 13
+            "(Jacob Lawrence)++",                            # 14
+            "(Salvador Dali)++",                             # 15
+            "(John Singer Sargent)++",                       # 16
+            "(Brad Rigney)++",                               # 17
+            "(Andrew Warhol)++",                             # 18
+            "(Android Jones)++"                              # 19
         ]
         self.prompt_suffix = \
             f"best quality, highest quality, ultra detailed, masterpiece, " \
@@ -62,7 +64,7 @@ class TestDiffuser(unittest.TestCase):
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
 
         content = "a person standing on the street"
-        prompt = f"{hero_token}, {content}, {self.prompt_suffix}".strip().lower()
+        prompt = f"({hero_token})+, {content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
         pipeline = StableDiffusionPipeline.from_pretrained(
@@ -86,7 +88,7 @@ class TestDiffuser(unittest.TestCase):
             negative_prompt=self.negative_prompt,
             cross_attention_kwargs={"label": hero_index}
         ).images[0]
-        image.save(os.path.join(output_dir, "test_38.png"))
+        image.save(os.path.join(output_dir, "test_39.png"))
 
 
 if __name__ == "__main__":
