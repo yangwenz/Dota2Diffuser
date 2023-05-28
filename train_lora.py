@@ -765,9 +765,11 @@ def main():
 
                 # Backpropagate
                 accelerator.backward(loss)
+                '''
                 if accelerator.sync_gradients:
                     params_to_clip = lora_layers.parameters()
                     accelerator.clip_grad_norm_(params_to_clip, args.max_grad_norm)
+                '''
                 optimizer.step()
                 lr_scheduler.step()
                 optimizer.zero_grad()
