@@ -2,7 +2,7 @@
 
 export MODEL_NAME="/home/ywz/data/models/stable-diffusion-v1-5"
 export DATASET_DIR="/home/ywz/data/dota2/heroes/selected/train"
-export MODEL_DIR="/home/ywz/data/dota2/model"
+export MODEL_DIR="/home/ywz/data/dota2/model_2"
 export INIT_MODEL_DIR=$MODEL_DIR
 
 # training_batch_size: 1 or 2

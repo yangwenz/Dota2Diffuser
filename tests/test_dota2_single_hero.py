@@ -1,4 +1,5 @@
 import os
+import torch
 import unittest
 from compel import Compel
 from diffusers import StableDiffusionPipeline
@@ -72,7 +73,8 @@ class TestDiffuser(unittest.TestCase):
         pipeline = StableDiffusionPipeline.from_pretrained(
             "/home/ywz/data/models/stable-diffusion-v1-5",
             safety_checker=None,
-            requires_safety_checker=False
+            requires_safety_checker=False,
+            torch_dtype=torch.float16
         )
         compel_proc = Compel(
             tokenizer=pipeline.tokenizer,

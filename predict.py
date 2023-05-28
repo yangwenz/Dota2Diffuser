@@ -28,7 +28,8 @@ class Predictor(BasePredictor):
             MODEL_ID,
             safety_checker=None,
             requires_safety_checker=False,
-            cache_dir=MODEL_CACHE
+            cache_dir=MODEL_CACHE,
+            torch_dtype=torch.float16
         )
         self.compel_proc = Compel(
             tokenizer=self.pipeline.tokenizer,
