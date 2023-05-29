@@ -11,10 +11,10 @@ class TestDiffuser(unittest.TestCase):
     def setUp(self) -> None:
         self.config = ConfigParser()
         styles = [
-            "beautiful detailed eyes, cinematic lighting, "
+            "highly detailed eyes, cinematic lighting, "
             "trending on artstation, award-winning, 8k wallpaper, highres, superb",
 
-            "cosplay, ultra realistic, highly detailed eyes, cinematic lighting, "
+            "ultra realistic, highly detailed eyes, cinematic lighting, "
             "8k wallpaper, highres, superb",
 
             "1girl, (tachi-e)+, original, illustration+, (ink splashing)+, "
@@ -61,12 +61,12 @@ class TestDiffuser(unittest.TestCase):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        model_dir = "/home/ywz/data/dota2/model_2"
-        hero = "Crystal Maiden"
+        model_dir = "/home/ywz/data/dota2/model_2/final"
+        hero = "Lina"
         hero_index = self.config.hero2index[hero]
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
 
-        content = "a cute girl standing on the bridge++, (full body)+++"
+        content = "a cute girl, (full body)++"
         prompt = f"({hero_token})+, {content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
