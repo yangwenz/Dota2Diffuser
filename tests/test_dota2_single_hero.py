@@ -11,7 +11,7 @@ class TestDiffuser(unittest.TestCase):
     def setUp(self) -> None:
         self.config = ConfigParser()
         styles = [
-            "highly detailed eyes, cinematic lighting, "
+            "beautiful detailed eyes, cinematic lighting, "
             "trending on artstation, award-winning, 8k wallpaper, highres, superb",
 
             "ultra realistic, highly detailed eyes, cinematic lighting, "
@@ -66,8 +66,8 @@ class TestDiffuser(unittest.TestCase):
         hero_index = self.config.hero2index[hero]
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
 
-        content = "a cute girl, (full body)++"
-        prompt = f"({hero_token})+, {content}, {self.prompt_suffix}".strip().lower()
+        content = "a girl standing, (full body)++"
+        prompt = f"{hero_token}, {content}, {self.prompt_suffix}".strip().lower()
         print(prompt)
 
         pipeline = StableDiffusionPipeline.from_pretrained(
