@@ -44,6 +44,7 @@ from diffusers.models.attention_processor import LoRAAttnProcessor
 from diffusers.optimization import get_scheduler
 from diffusers.utils import check_min_version, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
+from utils import dump_lora_weights
 
 
 # Will error if the minimal version of diffusers is not installed. Remove at your own risks.
@@ -844,6 +845,13 @@ def main():
     if accelerator.is_main_process:
         unet = unet.to(torch.float32)
         unet.save_attn_procs(args.output_dir)
+
+        if args.validation_label_index is not None:
+            dump_lora_weights(
+                unet=unet,
+                hero_index=args.validation_label_index,
+                output_dir=os.path.join(args.output_dir, "final")
+            )
 
         if args.push_to_hub:
             save_model_card(
