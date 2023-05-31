@@ -57,16 +57,16 @@ Clinkz: 120, 1
 Clockwerk: 100, 1
 Dark Seer: 100, 1
 Dazzle: 100, 1
-Disruptor
-Doom
-Dragon Knight
-Earth Spirit
-Elder Titan
-Ember Spirit
-Enigma
-Grimstroke
-Gyrocopter
-Huskar
+Disruptor: 110, 1
+Doom: 100, 1
+Dragon Knight: 100, 1
+Earth Spirit: 110, 1
+Elder Titan: 100, 1
+Ember Spirit: 100, 1
+Enigma: 100, 1
+Grimstroke: 100, 1
+Gyrocopter: 120, 1
+Huskar: 100, 1
 Invoker
 Jakiro
 Keeper of the Light
