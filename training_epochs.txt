@@ -1,0 +1,128 @@
+Hero: epochs, batch_size
+
+Lina: 100, 2
+Mirana: 100, 2
+Crystal Maiden: 100, 2
+Windranger: 100, 1
+Marci: 120, 1
+Queen of Pain: 100, 1
+Drow Ranger: 100, 2
+Templar Assassin: 100, 1
+Phantom Assassin: 100, 1
+Naga Siren: 120, 1
+Legion Commander: 120, 1
+Luna: 100, 1
+Enchantress: 100, 1
+Medusa: 170, 1
+Muerta: 110, 1
+Spectre: 100, 1
+Hoodwink: 110, 1
+Vengeful Spirit: 100, 1
+Death Prophet: 110, 1
+Dark Willow: 80, 1
+Dawnbreaker: 100, 1
+
+Juggernaut: 120, 1
+Faceless Void: 100, 1
+Terrorblade: 100, 1
+Razor: 100, 1
+Wraith King: 120, 1
+Ogre Magi: 120, 1
+Earthshaker: 100, 2
+Rubick: 100, 1
+Zeus: 100, 1
+Shadow Fiend: 100, 1
+Pudge: 100, 1
+IO: 210, 1
+Monkey King: 150, 1
+
+Abaddon: 110, 1
+Alchemist: 110, 1
+Ancient Apparition: 100, 1
+Anti-Mage: 110, 1
+Arc Warden: 100, 1
+Axe: 120, 1
+Bane: 120, 1
+Batrider: 160, 1
+Beastmaster: 100, 1
+Bloodseeker: 100, 1
+Bounty Hunter: 120, 1
+Brewmaster: 120, 1
+Bristleback: 110, 1
+Broodmother: 140, 1
+Centaur Warrunner: 120, 1
+Chaos Knight: 130, 1
+Chen: 100, 1
+Clinkz: 120, 1
+Clockwerk: 100, 1
+Dark Seer: 100, 1
+Dazzle: 100, 1
+Disruptor
+Doom
+Dragon Knight
+Earth Spirit
+Elder Titan
+Ember Spirit
+Enigma
+Grimstroke
+Gyrocopter
+Huskar
+Invoker
+Jakiro
+Keeper of the Light
+Kunkka
+Leshrac
+Lich
+Lifestealer
+Lion
+Lone Druid
+Lycan
+Magnus
+Mars
+Meepo
+Morphling
+Nature's Prophet
+Necrophos
+Night Stalker
+Nyx Assassin
+Omniknight
+Oracle
+Outworld Destroyer
+Pangolier
+Phantom Lancer
+Phoenix
+Primal Beast
+Puck
+Pugna
+Riki
+Sand King
+Shadow Demon
+Shadow Shaman
+Silencer
+Skywrath Mage
+Slardar
+Slark
+Snapfire
+Sniper
+Spirit Breaker
+Storm Spirit
+Sven
+Techies
+Tidehunter
+Timbersaw
+Tinker
+Tiny
+Treant Protector
+Troll Warlord
+Tusk
+Underlord
+Undying
+Ursa
+Venomancer
+Viper
+Visage
+Void Spirit
+Warlock
+Weaver
+Winter Wyvern
+Witch Doctor
