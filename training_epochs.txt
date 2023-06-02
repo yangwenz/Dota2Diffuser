@@ -67,23 +67,23 @@ Enigma: 100, 1
 Grimstroke: 100, 1
 Gyrocopter: 120, 1
 Huskar: 100, 1
-Invoker
-Jakiro
-Keeper of the Light
-Kunkka
-Leshrac
-Lich
-Lifestealer
-Lion
-Lone Druid
-Lycan
-Magnus
-Mars
-Meepo
-Morphling
-Nature's Prophet
-Necrophos
-Night Stalker
+Invoker: 130, 1
+Jakiro: 120, 1
+Keeper of the Light: 110, 1
+Kunkka: 100, 1
+Leshrac: 100, 1
+Lich: 110, 1
+Lifestealer: 110, 1
+Lion: 100, 1
+Lone Druid: 100, 1
+Lycan: 100, 1
+Magnus: 105, 1
+Mars: 130, 1
+Meepo: 100, 1
+Morphling: 100, 2
+Nature's Prophet: 100, 1
+Necrophos: 140, 1
+Night Stalker: 100, 1
 Nyx Assassin
 Omniknight
 Oracle
