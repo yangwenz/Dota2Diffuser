@@ -119,10 +119,10 @@ Underlord: 100, 1
 Undying: 100, 1
 Ursa: 100, 1
 Venomancer: 100, 1
-Viper
-Visage
-Void Spirit
-Warlock
-Weaver
-Winter Wyvern
-Witch Doctor
+Viper: 100, 1
+Visage: 100, 1
+Void Spirit: 100, 1
+Warlock: 100, 1
+Weaver: 100, 1
+Winter Wyvern: 80, 1
+Witch Doctor: 120, 1
