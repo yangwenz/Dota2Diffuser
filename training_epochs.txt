@@ -84,29 +84,29 @@ Morphling: 100, 2
 Nature's Prophet: 100, 1
 Necrophos: 140, 1
 Night Stalker: 100, 1
-Nyx Assassin
-Omniknight
-Oracle
-Outworld Destroyer
-Pangolier
-Phantom Lancer
-Phoenix
-Primal Beast
-Puck
-Pugna
-Riki
-Sand King
-Shadow Demon
-Shadow Shaman
-Silencer
-Skywrath Mage
-Slardar
-Slark
-Snapfire
-Sniper
-Spirit Breaker
-Storm Spirit
-Sven
+Nyx Assassin: 100, 1
+Omniknight: 110, 1
+Oracle: 90, 1
+Outworld Destroyer: 100, 1
+Pangolier: 100, 1
+Phantom Lancer: 100, 1
+Phoenix: 70, 1
+Primal Beast: 100, 2
+Puck: 120, 1
+Pugna: 100, 1
+Riki: 120, 1
+Sand King: 100, 1
+Shadow Demon: 100, 1
+Shadow Shaman: 120, 1
+Silencer: 100, 1
+Skywrath Mage: 100, 1
+Slardar: 100, 1
+Slark: 100, 1
+Snapfire: 100, 1
+Sniper: 100, 1
+Spirit Breaker: 100, 1
+Storm Spirit: 110, 1
+Sven: 100, 1
 Techies
 Tidehunter
 Timbersaw
