@@ -107,18 +107,18 @@ Sniper: 100, 1
 Spirit Breaker: 100, 1
 Storm Spirit: 110, 1
 Sven: 100, 1
-Techies
-Tidehunter
-Timbersaw
-Tinker
-Tiny
-Treant Protector
-Troll Warlord
-Tusk
-Underlord
-Undying
-Ursa
-Venomancer
+Techies: 110, 1
+Tidehunter: 100, 1
+Timbersaw: 120, 1
+Tinker: 140, 1
+Tiny: 110, 1
+Treant Protector: 100, 1
+Troll Warlord: 100, 1
+Tusk: 100, 1
+Underlord: 100, 1
+Undying: 100, 1
+Ursa: 100, 1
+Venomancer: 100, 1
 Viper
 Visage
 Void Spirit
