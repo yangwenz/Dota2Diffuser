@@ -25,7 +25,7 @@ Dawnbreaker: 100, 1
 Juggernaut: 120, 1
 Faceless Void: 100, 1
 Terrorblade: 100, 2
-Razor: 100, 1
+Razor: 110, 1
 Wraith King: 120, 1
 Ogre Magi: 120, 1
 Earthshaker: 100, 2
