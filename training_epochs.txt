@@ -1,6 +1,6 @@
 Hero: epochs, batch_size
 
-Lina: 100, 2
+Lina: 120, 2
 Mirana: 100, 2
 Crystal Maiden: 100, 2
 Windranger: 100, 1
