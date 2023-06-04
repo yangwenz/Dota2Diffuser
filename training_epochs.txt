@@ -48,10 +48,10 @@ Beastmaster: 100, 1
 Bloodseeker: 100, 1
 Bounty Hunter: 120, 1
 Brewmaster: 120, 1
-Bristleback: 110, 1
+Bristleback: 100, 1
 Broodmother: 140, 1
 Centaur Warrunner: 120, 1
-Chaos Knight: 130, 1
+Chaos Knight: 100, 1
 Chen: 100, 1
 Clinkz: 120, 1
 Clockwerk: 100, 1
