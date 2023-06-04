@@ -4,7 +4,7 @@ Lina: 100, 2
 Mirana: 100, 2
 Crystal Maiden: 100, 2
 Windranger: 100, 1
-Marci: 120, 1
+Marci: 135, 1
 Queen of Pain: 100, 1
 Drow Ranger: 100, 2
 Templar Assassin: 100, 1

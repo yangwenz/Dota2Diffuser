@@ -10,7 +10,7 @@ class TestDiffuser(unittest.TestCase):
 
     def setUp(self) -> None:
         self.config = ConfigParser()
-        styles = [
+        self.styles = [
             "beautiful detailed eyes, cinematic lighting, "
             "trending on artstation, award-winning, 8k wallpaper, highres, superb",
 
@@ -42,8 +42,8 @@ class TestDiffuser(unittest.TestCase):
             "(Pablo Picasso)+++"                             # 20
         ]
         self.prompt_suffix = \
-            f"best quality, highest quality, ultra detailed, masterpiece, " \
-            f"intricate, {styles[0]}"
+            "best quality, highest quality, ultra detailed, masterpiece, " \
+            "intricate, {}"
 
         self.negative_prompt = \
             "ugly, lowres, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, " \
@@ -56,35 +56,27 @@ class TestDiffuser(unittest.TestCase):
             "duplicate, cloned face, fused fingers, long neck, malformed limbs, morbid, " \
             "mutated hands, mutation, mutilated"
 
-    def test_diffuser(self):
-        output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "save")
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-
         model_dir = "/home/ywz/data/dota2/model_2/final"
-        hero = "Lina"
-        hero_index = self.config.hero2index[hero]
-        hero_token = f"{hero.lower().replace(' ', '_')}_dota"
-
-        content = "a girl standing, (full body)++"
-        prompt = f"{hero_token}, {content}, {self.prompt_suffix}".strip().lower()
-        print(prompt)
-
-        pipeline = StableDiffusionPipeline.from_pretrained(
+        self.pipeline = StableDiffusionPipeline.from_pretrained(
             "/home/ywz/data/models/stable-diffusion-v1-5",
             safety_checker=None,
             requires_safety_checker=False,
             torch_dtype=torch.float16
         )
-        compel_proc = Compel(
-            tokenizer=pipeline.tokenizer,
-            text_encoder=pipeline.text_encoder
+        self.compel_proc = Compel(
+            tokenizer=self.pipeline.tokenizer,
+            text_encoder=self.pipeline.text_encoder
         )
-        pipeline.unet.load_attn_procs(model_dir)
-        pipeline.to("cuda")
+        self.pipeline.unet.load_attn_procs(model_dir)
+        self.pipeline.to("cuda")
 
-        prompt_embeds = compel_proc(prompt)
-        image = pipeline(
+    def _run_pipeline(self, prompt, hero_index, filename):
+        output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "save")
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        prompt_embeds = self.compel_proc(prompt)
+        image = self.pipeline(
             # prompt=prompt,
             prompt_embeds=prompt_embeds,
             width=480,
@@ -92,7 +84,30 @@ class TestDiffuser(unittest.TestCase):
             negative_prompt=self.negative_prompt,
             cross_attention_kwargs={"label": hero_index}
         ).images[0]
-        image.save(os.path.join(output_dir, "test_40.png"))
+        image.save(os.path.join(output_dir, filename))
+
+    def test_diffuser(self):
+        hero = "Lina"
+        hero_index = self.config.hero2index[hero]
+        hero_token = f"{hero.lower().replace(' ', '_')}_dota"
+
+        content = "a girl standing, (full body)++"
+        test_styles = [0]
+        num_samples = 5
+
+        for style in test_styles:
+            for _ in range(num_samples):
+                prompt_suffix = self.prompt_suffix.format(self.styles[style])
+                prompt = f"{hero_token}, {content}, {prompt_suffix}".strip().lower()
+                print(prompt)
+
+                self._run_pipeline(
+                    prompt=prompt,
+                    hero_index=hero_index,
+                    filename="test_40.png"
+                )
+                if len(test_styles) > 1 or num_samples > 1:
+                    input("next?")
 
 
 if __name__ == "__main__":
