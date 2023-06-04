@@ -21,6 +21,7 @@ Vengeful Spirit: 100, 1
 Death Prophet: 110, 1
 Dark Willow: 80, 1
 Dawnbreaker: 100, 1
+Snapfire: 100, 1
 
 Juggernaut: 120, 1
 Faceless Void: 100, 1
@@ -67,7 +68,7 @@ Enigma: 100, 1
 Grimstroke: 100, 1
 Gyrocopter: 120, 1
 Huskar: 100, 1
-Invoker: 130, 1
+Invoker: 100, 1
 Jakiro: 120, 1
 Keeper of the Light: 110, 1
 Kunkka: 100, 1
@@ -78,7 +79,7 @@ Lion: 100, 1
 Lone Druid: 100, 1
 Lycan: 100, 1
 Magnus: 105, 1
-Mars: 130, 1
+Mars: 120, 1
 Meepo: 100, 1
 Morphling: 100, 2
 Nature's Prophet: 100, 1
@@ -102,7 +103,6 @@ Silencer: 100, 1
 Skywrath Mage: 100, 1
 Slardar: 100, 1
 Slark: 100, 1
-Snapfire: 100, 1
 Sniper: 100, 1
 Spirit Breaker: 100, 1
 Storm Spirit: 110, 1
