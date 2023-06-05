@@ -47,7 +47,7 @@ class Predictor(BasePredictor):
             ),
             prompt: str = Input(
                 description="Input prompt",
-                default="a girl standing on a bridge, "
+                default="a girl standing, (full body)++, "
                         "best quality, highest quality, ultra detailed, masterpiece, "
                         "intricate, beautiful detailed eyes, cinematic lighting, "
                         "trending on artstation, award-winning, 8k wallpaper, highres, superb"
