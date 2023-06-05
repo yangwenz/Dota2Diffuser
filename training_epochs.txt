@@ -58,7 +58,7 @@ Clinkz: 120, 1
 Clockwerk: 100, 1
 Dark Seer: 100, 1
 Dazzle: 100, 1
-Disruptor: 110, 1
+Disruptor: 100, 1
 Doom: 100, 1
 Dragon Knight: 100, 1
 Earth Spirit: 110, 1
@@ -83,7 +83,7 @@ Mars: 120, 1
 Meepo: 100, 1
 Morphling: 100, 2
 Nature's Prophet: 100, 1
-Necrophos: 140, 1
+Necrophos: 180, 1
 Night Stalker: 100, 1
 Nyx Assassin: 100, 1
 Omniknight: 110, 1
@@ -98,7 +98,7 @@ Pugna: 100, 1
 Riki: 120, 1
 Sand King: 100, 1
 Shadow Demon: 100, 1
-Shadow Shaman: 120, 1
+Shadow Shaman: 100, 1
 Silencer: 100, 1
 Skywrath Mage: 100, 1
 Slardar: 100, 1
