@@ -44,7 +44,7 @@ Anti-Mage: 110, 1
 Arc Warden: 100, 1
 Axe: 120, 1
 Bane: 120, 1
-Batrider: 160, 1
+Batrider: 120, 1
 Beastmaster: 100, 1
 Bloodseeker: 100, 1
 Bounty Hunter: 120, 1
@@ -79,7 +79,7 @@ Lion: 100, 1
 Lone Druid: 100, 1
 Lycan: 100, 1
 Magnus: 105, 1
-Mars: 120, 1
+Mars: 140, 1
 Meepo: 100, 1
 Morphling: 100, 2
 Nature's Prophet: 100, 1
@@ -107,7 +107,7 @@ Sniper: 100, 1
 Spirit Breaker: 100, 1
 Storm Spirit: 110, 1
 Sven: 100, 1
-Techies: 110, 1
+Techies: 130, 1
 Tidehunter: 100, 1
 Timbersaw: 120, 1
 Tinker: 140, 1
