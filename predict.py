@@ -45,6 +45,11 @@ class Predictor(BasePredictor):
                 description="Input dota 2 hero",
                 default="Lina",
             ),
+            hero_weight: int = Input(
+                description="The style weight of this hero",
+                choices=[-2, -1, 0, 1, 2],
+                default=0
+            ),
             prompt: str = Input(
                 description="Input prompt",
                 default="a girl standing, (full body)++, "
@@ -95,7 +100,13 @@ class Predictor(BasePredictor):
 
         hero_index = self.config.hero2index[hero]
         hero_token = f"{hero.lower().replace(' ', '_')}_dota"
-        prompt = f"({hero_token})+, {prompt}"
+        if hero_weight == 0:
+            weighted_hero_token = hero_token
+        elif hero_weight > 0:
+            weighted_hero_token = f"({hero_token})" + "+" * hero_weight
+        else:
+            weighted_hero_token = f"({hero_token})" + "-" * abs(hero_weight)
+        prompt = f"{weighted_hero_token}, {prompt}"
 
         prompt_embeds = self.compel_proc(prompt)
         output = self.pipeline(
