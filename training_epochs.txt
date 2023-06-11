@@ -11,7 +11,7 @@ Templar Assassin: 100, 1
 Phantom Assassin: 100, 1
 Naga Siren: 120, 1
 Legion Commander: 120, 1
-Luna: 100, 1
+Luna: 130, 1
 Enchantress: 100, 1
 Medusa: 170, 1
 Muerta: 110, 1

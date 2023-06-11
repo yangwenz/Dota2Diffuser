@@ -32,7 +32,7 @@ build:
     # - "echo another command if needed"
 
 # The name given to built Docker images
-image: "r8.im/yangwenz/dota2-heros"
+image: "r8.im/yangwenz/d2-model"
 
 # predict.py defines how predictions are run on your model
 predict: "predict.py:Predictor"
